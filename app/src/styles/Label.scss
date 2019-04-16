@@ -1,0 +1,26 @@
+.label {
+  background: transparent;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  color: white;
+
+  &.editingMode {
+    border: 2px dashed white;
+  }
+
+  .padlock,
+  .draggable,
+  .edit,
+  .resizable {
+    color: white !important;
+  }
+}
+
+.label-wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

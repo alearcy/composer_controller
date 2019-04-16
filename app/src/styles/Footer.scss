@@ -1,0 +1,30 @@
+.footer {
+  position: relative;
+  background: #37383c;
+  height: 30px;
+  width: 100%;
+  text-align: center;
+  justify-content: space-between;
+  display: flex;
+  align-items: center;
+  color: white;
+  z-index: 97;
+  font-size: 12px;
+  padding: 0 10px;
+
+  .midi-devices-box {
+    display: flex;
+
+    div {
+      margin-right: 10px;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+
+    .midi-title {
+      margin-right: 5px;
+    }
+  }
+}

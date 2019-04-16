@@ -1,0 +1,22 @@
+.oscButton {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  border-radius: 5px;
+  cursor: pointer;
+
+  &.editingMode {
+    border: 2px dashed white !important;
+    cursor: default;
+  }
+}
+
+.oscButton-wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  overflow: hidden;
+}

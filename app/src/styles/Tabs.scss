@@ -1,0 +1,25 @@
+.tabs {
+  height: 40px;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background: #5a5a5a;
+  display: flex;
+
+  .tab {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+
+    .editTab {
+      margin: 0 10px 0 0;
+    }
+
+    &.active {
+      border-bottom: 2px solid white;
+      color: white;
+    }
+  }
+}

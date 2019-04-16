@@ -1,0 +1,120 @@
+{
+  "options": {
+    "elements": [
+      {
+        "id": "jol7d8cm8",
+        "x": 25,
+        "y": 25,
+        "w": 100,
+        "h": 300,
+        "static": false,
+        "label": "",
+        "tab": {
+          "id": "d2bshrnvk",
+          "label": "New board",
+          "type": "TAB"
+        },
+        "type": "SLIDER",
+        "midiType": "cc",
+        "channel": 1,
+        "value": 0,
+        "ccValue": 0,
+        "oscValue": "jol7d8cm8",
+        "styleColor": "#ff671f",
+        "labelColor": "#111111",
+        "minCcValue": 0,
+        "maxCcValue": 127,
+        "minPitchValue": 0,
+        "maxPitchValue": 16383,
+        "orientation": "vertical"
+      },
+      {
+        "id": "8p75smk8u",
+        "x": 25,
+        "y": 25,
+        "w": 100,
+        "h": 100,
+        "static": false,
+        "label": "",
+        "tab": {
+          "id": "2w89ryvw1",
+          "label": "DP",
+          "type": "TAB"
+        },
+        "type": "BTN",
+        "midiType": "note",
+        "channel": 1,
+        "value": 0,
+        "oscValue": "8p75smk8u",
+        "styleColor": "#ff671f",
+        "labelColor": "#111111"
+      },
+      {
+        "id": "09u53gr03",
+        "x": 175,
+        "y": 25,
+        "w": 100,
+        "h": 300,
+        "static": false,
+        "label": "",
+        "tab": {
+          "id": "2w89ryvw1",
+          "label": "DP",
+          "type": "TAB"
+        },
+        "type": "SLIDER",
+        "midiType": "cc",
+        "channel": 1,
+        "value": 0,
+        "ccValue": 0,
+        "oscValue": "09u53gr03",
+        "styleColor": "#ff671f",
+        "labelColor": "#111111",
+        "minCcValue": 0,
+        "maxCcValue": 127,
+        "minPitchValue": 0,
+        "maxPitchValue": 16383,
+        "orientation": "vertical"
+      },
+      {
+        "id": "ncjnzirmg",
+        "x": 300,
+        "y": 25,
+        "w": 100,
+        "h": 100,
+        "static": false,
+        "label": "Ciao",
+        "tab": {
+          "id": "2w89ryvw1",
+          "label": "DP",
+          "type": "TAB"
+        },
+        "type": "BTN",
+        "midiType": "note",
+        "channel": 1,
+        "value": 61,
+        "oscValue": "ncjnzirmg",
+        "styleColor": "#9c27b0",
+        "labelColor": "#111111"
+      }
+    ],
+    "tabs": [
+      {
+        "id": "2w89ryvw1",
+        "label": "DP",
+        "type": "TAB"
+      },
+      {
+        "id": "d2bshrnvk",
+        "label": "Cubase",
+        "type": "TAB"
+      }
+    ],
+    "settings": {
+      "midiInDevice": "IAC Driver Bus 1",
+      "midiOutDevice": "IAC Driver Bus 1",
+      "midiInPort": 5555,
+      "miniOutPort": 6666
+    }
+  }
+}

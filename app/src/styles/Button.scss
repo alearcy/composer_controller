@@ -1,0 +1,36 @@
+button {
+  margin: 0 10px 0 0;
+  width: auto;
+  overflow: visible;
+  color: coral;
+  font: inherit;
+  line-height: normal;
+  -webkit-font-smoothing: inherit;
+  -moz-osx-font-smoothing: inherit;
+  -webkit-appearance: none;
+  cursor: pointer;
+  border: 1px solid coral;
+  border-radius: 3px;
+  padding: 5px 10px;
+  background: transparent;
+  font-size: 0.8em;
+  transition: all 150ms ease-in-out;
+
+  &.danger {
+    border: 1px solid firebrick;
+    color: firebrick;
+    background: transparent;
+  }
+
+  &.confirm {
+    background: transparent;
+    border: 1px solid darkcyan;
+    color: darkcyan;
+  }
+
+  &.neutral {
+    background: none;
+    border: 1px solid white;
+    color: white;
+  }
+}
