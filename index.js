@@ -93,7 +93,7 @@ function messageSliderHandler(msg) {
 }
 
 function ipAddressHandler(ip) {
-    const ipAddress = ip + ' or localhost:9000';
+    const ipAddress = ip;
     $('#ip').html('<p class="ip">Ready to ' + ipAddress + '</p>');
 }
 
