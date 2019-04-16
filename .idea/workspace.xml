@@ -2,63 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="06bbf7eb-cbc4-4ba7-a589-e5d558fe70c3" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/src/app.global.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/components/Drawer.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/components/Element.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/components/Footer.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/components/Label.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/components/OscButton.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/components/Tab.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/constants/actionConstants.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/constants/genericConstants.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/constants/routes.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/containers/Board.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/containers/ButtonForm.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/containers/Elements.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/containers/Header.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/containers/LabelForm.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/containers/SettingsForm.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/containers/SliderForm.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/containers/TabForm.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/containers/Tabs.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/helpers/create-reducer.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/helpers/uuid-generator.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/store/actions/boardActions.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/store/actions/devicesActions.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/store/actions/elementsAction.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/store/actions/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/store/actions/tabsActions.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/store/configureStore.dev.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/store/configureStore.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/store/configureStore.prod.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/store/reducers/boardReducer.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/store/reducers/devicesReducer.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/store/reducers/elementsReducer.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/store/reducers/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/store/reducers/tabsReducer.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/store/sagas/boardSagas.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/store/sagas/rootSagas.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/store/selectors/boardSelectors.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/store/selectors/devicesSelectors.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/store/selectors/elementsSelectors.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/store/selectors/tabsSelectors.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/styles/Button.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/styles/Drawer.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/styles/Element.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/styles/Footer.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/styles/Header.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/styles/Label.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/styles/OscButton.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/styles/Slider.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/styles/Tabs.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/utils/.gitkeep" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/index.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/main.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/renderer.js" beforeDir="false" afterPath="$PROJECT_DIR$/renderer.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -73,82 +22,11 @@
     <splitter split-orientation="horizontal" split-proportion="0.47465208">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/app/src/containers/Board.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="420">
-                  <caret line="28" column="83" selection-start-line="28" selection-start-column="83" selection-end-line="28" selection-end-column="83" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/app/package.json">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="480">
-                  <caret line="32" column="19" selection-start-line="32" selection-start-column="19" selection-end-line="32" selection-end-column="19" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/app/src/index.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="75">
-                  <caret line="5" column="42" selection-start-line="5" selection-start-column="42" selection-end-line="5" selection-end-column="42" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/main.js">
-              <provider selected="true" editor-type-id="text-editor" />
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/options.json">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="115">
-                  <caret line="38" column="16" selection-start-line="38" selection-start-column="16" selection-end-line="38" selection-end-column="16" />
-                </state>
-              </provider>
-            </entry>
-          </file>
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/package.json">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="466">
-                  <caret line="39" column="20" lean-forward="true" selection-start-line="39" selection-start-column="20" selection-end-line="39" selection-end-column="20" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/app/src/components/Footer.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="210">
-                  <caret line="14" selection-start-line="14" selection-end-line="14" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/app/src/store/sagas/boardSagas.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="423">
-                  <caret line="42" column="29" selection-start-line="42" selection-start-column="29" selection-end-line="42" selection-end-column="29" />
-                  <folding>
-                    <element signature="e#0#67#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/app/src/store/configureStore.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="60">
-                  <caret line="4" column="1" selection-start-line="4" selection-start-column="1" selection-end-line="4" selection-end-column="1" />
+                <state relative-caret-position="780">
+                  <caret line="52" column="5" selection-start-line="52" selection-start-column="5" selection-end-line="52" selection-end-column="5" />
                 </state>
               </provider>
             </entry>
@@ -157,20 +35,42 @@
       </split-first>
       <split-second>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file pinned="false" current-in-tab="true">
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/renderer.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="43">
+                <state relative-caret-position="1260">
                   <caret line="84" column="29" selection-start-line="84" selection-start-column="29" selection-end-line="84" selection-end-column="29" />
                 </state>
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="false">
+          <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/index.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="30">
-                  <caret line="2" column="35" selection-start-line="2" selection-start-column="26" selection-end-line="2" selection-end-column="35" />
+                <state relative-caret-position="360">
+                  <caret line="24" column="54" lean-forward="true" selection-start-line="24" selection-start-column="54" selection-end-line="24" selection-end-column="54" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/main.js">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="526">
+                  <caret line="76" column="54" lean-forward="true" selection-start-line="76" selection-start-column="54" selection-end-line="76" selection-end-column="54" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/index.html">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="465">
+                  <caret line="31" column="47" lean-forward="true" selection-start-line="31" selection-start-column="47" selection-end-line="31" selection-end-column="47" />
+                  <folding>
+                    <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                    <element signature="n#style#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -219,6 +119,11 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -233,7 +138,6 @@
         <option value="$PROJECT_DIR$/app/src/store/configureStore.prod.js" />
         <option value="$PROJECT_DIR$/app/craco.config.js" />
         <option value="$PROJECT_DIR$/app/src/index.js" />
-        <option value="$PROJECT_DIR$/main.js" />
         <option value="$PROJECT_DIR$/server/renderer.js" />
         <option value="$PROJECT_DIR$/app/src/store/reducers/elementsReducer.js" />
         <option value="$PROJECT_DIR$/app/src/components/Element.js" />
@@ -249,19 +153,20 @@
         <option value="$PROJECT_DIR$/app/src/store/actions/devicesActions.js" />
         <option value="$PROJECT_DIR$/options.json" />
         <option value="$PROJECT_DIR$/index.css" />
-        <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/app/src/constants/actionConstants.js" />
         <option value="$PROJECT_DIR$/app/src/store/reducers/boardReducer.js" />
         <option value="$PROJECT_DIR$/app/src/store/selectors/boardSelectors.js" />
         <option value="$PROJECT_DIR$/app/src/store/actions/boardActions.js" />
         <option value="$PROJECT_DIR$/app/package.json" />
-        <option value="$PROJECT_DIR$/index.js" />
         <option value="$PROJECT_DIR$/app/src/helpers/ip.js" />
         <option value="$PROJECT_DIR$/app/src/store/sagas/boardSagas.js" />
         <option value="$PROJECT_DIR$/app/src/store/configureStore.js" />
         <option value="$PROJECT_DIR$/app/src/containers/Board.js" />
         <option value="$PROJECT_DIR$/app/src/components/Footer.js" />
         <option value="$PROJECT_DIR$/renderer.js" />
+        <option value="$PROJECT_DIR$/main.js" />
+        <option value="$PROJECT_DIR$/index.html" />
+        <option value="$PROJECT_DIR$/index.js" />
         <option value="$PROJECT_DIR$/package.json" />
       </list>
     </option>
@@ -304,6 +209,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="ignore_missing_gitignore" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/app/src" />
@@ -352,12 +258,12 @@
       <workItem from="1555157540225" duration="8559000" />
       <workItem from="1555245959295" duration="611000" />
       <workItem from="1555319264126" duration="23876000" />
-      <workItem from="1555415124425" duration="8374000" />
+      <workItem from="1555415124425" duration="9214000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="86454000" />
+    <option name="totallyTimeSpent" value="87294000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-3" y="22" width="2560" height="1058" extended-state="6" />
@@ -554,13 +460,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="15" column="27" selection-start-line="15" selection-start-column="27" selection-end-line="15" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/index.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="315">
@@ -633,13 +532,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="35" selection-start-line="2" selection-start-column="26" selection-end-line="2" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/helpers/ip.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="49">
@@ -689,13 +581,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/renderer.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="43">
-          <caret line="84" column="29" selection-start-line="84" selection-start-column="29" selection-end-line="84" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/serviceWorker.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1364">
@@ -726,9 +611,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/options.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="115">
@@ -739,10 +621,42 @@
     <entry file="file://$PROJECT_DIR$/build/.keep">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="465">
+          <caret line="31" column="47" lean-forward="true" selection-start-line="31" selection-start-column="47" selection-end-line="31" selection-end-column="47" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="526">
+          <caret line="76" column="54" lean-forward="true" selection-start-line="76" selection-start-column="54" selection-end-line="76" selection-end-column="54" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/renderer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1260">
+          <caret line="84" column="29" selection-start-line="84" selection-start-column="29" selection-end-line="84" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="24" column="54" lean-forward="true" selection-start-line="24" selection-start-column="54" selection-end-line="24" selection-end-column="54" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="466">
-          <caret line="39" column="20" lean-forward="true" selection-start-line="39" selection-start-column="20" selection-end-line="39" selection-end-column="20" />
+        <state relative-caret-position="780">
+          <caret line="52" column="5" selection-start-line="52" selection-start-column="5" selection-end-line="52" selection-end-column="5" />
         </state>
       </provider>
     </entry>

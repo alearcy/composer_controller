@@ -1,9 +1,30 @@
 const WebMidi = require('webmidi');
 const io = require('socket.io-client');
 const socket = io('http://localhost:9000');
+const { ipcRenderer } = require('electron');
 
 let midiInDevices = [];
 let midiOutDevices = [];
+
+const select = selector => document.querySelector(selector);
+
+let container = select('#messages');
+let progressBar = select('#progressBar');
+let version = select('#version');
+
+ipcRenderer.on('message', (event, text) => {
+    let message = document.createElement('div');
+    message.innerHTML = text;
+    container.appendChild(message)
+});
+
+ipcRenderer.on('version', (event, text) => {
+    version.innerText = text
+});
+
+ipcRenderer.on('download-progress', (event, text) => {
+    progressBar.style.width = `${text}%`
+});
 
 WebMidi.enable((err) => {
     if (err) {

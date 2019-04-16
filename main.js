@@ -1,5 +1,6 @@
 // Modules to control application life and create native browser window
 const {app, BrowserWindow} = require('electron');
+const { autoUpdater } = require("electron-updater");
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -33,7 +34,14 @@ function createWindow () {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', createWindow);
+app.on('ready', () => {
+  createWindow();
+  autoUpdater.checkForUpdatesAndNotify();
+
+  mainWindow.webContents.on('did-finish-load', () => {
+    mainWindow.webContents.send('version', app.getVersion())
+  })
+});
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function () {
@@ -50,3 +58,28 @@ app.on('activate', function () {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
+autoUpdater.on('checking-for-update', () => {
+  dispatch('Checking for update...')
+});
+
+autoUpdater.on('update-available', (info) => {
+  dispatch('Update available.')
+});
+
+autoUpdater.on('update-not-available', (info) => {
+  dispatch('Update not available.')
+});
+
+autoUpdater.on('error', (err) => {
+  dispatch('Error in auto-updater. ' + err)
+});
+
+autoUpdater.on('download-progress', (progressObj) => {
+
+  mainWindow.webContents.send('download-progress', progressObj.percent)
+
+});
+
+autoUpdater.on('update-downloaded', (info) => {
+  autoUpdater.quitAndInstall();
+});
