@@ -69,12 +69,6 @@ export function exitEditingElement() {
   };
 }
 
-export function handleSettingsForm() {
-  return {
-    type: actions.HANDLE_SETTINGS_FORM
-  };
-}
-
 export function saveSettingsForm(settings) {
   return {
     type   : actions.SAVE_SETTINGS_FORM,

@@ -35,7 +35,7 @@
         "w": 100,
         "h": 100,
         "static": false,
-        "label": "",
+        "label": "pippo",
         "tab": {
           "id": "2w89ryvw1",
           "label": "DP",
@@ -46,15 +46,15 @@
         "channel": 1,
         "value": 0,
         "oscValue": "8p75smk8u",
-        "styleColor": "#ff671f",
+        "styleColor": "#3f51b5",
         "labelColor": "#111111"
       },
       {
-        "id": "09u53gr03",
-        "x": 175,
+        "id": "7rn307cmq",
+        "x": 150,
         "y": 25,
-        "w": 100,
-        "h": 300,
+        "w": "250px",
+        "h": "475px",
         "static": false,
         "label": "",
         "tab": {
@@ -65,9 +65,9 @@
         "type": "SLIDER",
         "midiType": "cc",
         "channel": 1,
-        "value": 0,
+        "value": 7,
         "ccValue": 0,
-        "oscValue": "09u53gr03",
+        "oscValue": "7rn307cmq",
         "styleColor": "#ff671f",
         "labelColor": "#111111",
         "minCcValue": 0,
@@ -75,27 +75,6 @@
         "minPitchValue": 0,
         "maxPitchValue": 16383,
         "orientation": "vertical"
-      },
-      {
-        "id": "ncjnzirmg",
-        "x": 300,
-        "y": 25,
-        "w": 100,
-        "h": 100,
-        "static": false,
-        "label": "Ciao",
-        "tab": {
-          "id": "2w89ryvw1",
-          "label": "DP",
-          "type": "TAB"
-        },
-        "type": "BTN",
-        "midiType": "note",
-        "channel": 1,
-        "value": 61,
-        "oscValue": "ncjnzirmg",
-        "styleColor": "#9c27b0",
-        "labelColor": "#111111"
       }
     ],
     "tabs": [
@@ -107,6 +86,11 @@
       {
         "id": "d2bshrnvk",
         "label": "Cubase",
+        "type": "TAB"
+      },
+      {
+        "id": "5qb4e1aad",
+        "label": "New board",
         "type": "TAB"
       }
     ],

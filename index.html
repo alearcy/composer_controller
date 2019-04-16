@@ -1,41 +1,58 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Composer Controller</title>
-    <link rel="stylesheet" href="./index.css">
-    <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
-    <script
-            src="https://code.jquery.com/jquery-3.3.1.min.js"
-            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-            crossorigin="anonymous"></script>
-    <script>if (window.module) module = window.module;</script>
-  </head>
-  <body>
-    <h1>Composer Controller</h1>
-    <p>
-      Current version: <span id="version"></span>
-    </p>
-    <div id="messages" style="color:cyan"></div>
-    <div style="height:24px;width:0%" id="progressBar"></div>
-    <div id="errors"></div>
-    <select name="midiInputDevices" id="midiInputDevices">
-      <option value="" disabled selected>Choose MIDI input</option>
-    </select>
-    <select name="midiOutputDevices" id="midiOutputDevices">
-      <option value="" disabled selected>Choose MIDI output</option>
-    </select>
-    <section id="ip"></section>
-    <section id="code"></section>
-    <div>
-      <button id="exportBackup">Export</button>
-      <button id="importBackup">Import</button>
-    </div>
+    <head>
+        <meta charset="UTF-8">
+        <title>Composer Controller</title>
+        <link rel="stylesheet" href="./index.css">
+        <script>if (typeof module === 'object') {
+            window.module = module;
+            module = undefined;
+        }</script>
+        <script
+                src="https://code.jquery.com/jquery-3.3.1.min.js"
+                integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+                crossorigin="anonymous"></script>
+        <script>if (window.module) module = window.module;</script>
+    </head>
+    <body>
+    <header>
+        <img class="logo" src="./logo.png" alt="logo">
+    </header>
+    <main>
+        <div id="errors"></div>
+        <section id="ip"></section>
+        <div class="midiConfig">
+            <div class="form-field">
+                <label for="midiInputDevices">MINI In</label>
+                <select name="midiInputDevices" id="midiInputDevices">
+                    <option value="" disabled selected>Choose MIDI input</option>
+                </select>
+            </div>
+            <div class="form-field">
+                <label for="midiOutputDevices">MINI Out</label>
+                <select name="midiOutputDevices" id="midiOutputDevices">
+                    <option value="" disabled selected>Choose MIDI output</option>
+                </select>
+            </div>
+        </div>
+        <section id="code"></section>
+        <div class="backup-buttons">
+            <button class="button neutral" id="exportBackup">Export</button>
+            <button class="button neutral" id="importBackup">Import</button>
+        </div>
+    </main>
+    <footer>
+        <div class="version">
+            <span>Current version: </span><span id="version"></span>
+        </div>
+        <div class="update">
+            <div id="messages" style="color:cyan"></div>
+            <div style="height:24px;width:0%" id="progressBar"></div>
+        </div>
+    </footer>
     <script>
-      // You can also require other files to run in this process
-      require('./renderer.js');
-
+        require('./renderer.js');
     </script>
     <script src="index.js"></script>
-  </body>
+    </body>
 </html>

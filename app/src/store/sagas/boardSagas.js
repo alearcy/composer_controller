@@ -3,7 +3,7 @@ import axios from 'axios';
 import {
   DELETE_ELEMENT,
   DELETE_TAB, EXIT_EDITING_ELEMENT,
-  EXIT_EDITING_MODE, HANDLE_EDIT_ELEMENT, HANDLE_EDIT_TAB, HANDLE_SETTINGS_FORM, IMPORT_FROM_BKP,
+  EXIT_EDITING_MODE, HANDLE_EDIT_ELEMENT, HANDLE_EDIT_TAB, IMPORT_FROM_BKP,
   INIT_BOARD, INIT_BOARD_DONE, LOAD_ELEMENTS, LOAD_TABS,
   RESET_BOARD, SAVE_ELEMENT_FORM,
   SAVE_LAYOUT, SAVE_SETTINGS_FORM, SAVE_TAB_FORM
@@ -88,10 +88,6 @@ function* tabFormRequestSaga() {
   yield put(tabFormRequest(DrawerForms.TAB_FORM));
 }
 
-function* settingsFormRequestSaga() {
-  yield put(tabFormRequest(DrawerForms.SETTINGS_FORM));
-}
-
 function* importFromFileSaga(action) {
   const elements = action.payload.elements;
   const tabs = action.payload.tabs;
@@ -121,7 +117,6 @@ export default function* boardSagasWatcher() {
   yield takeLatest([SAVE_ELEMENT_FORM, SAVE_TAB_FORM, LOAD_ELEMENTS, LOAD_TABS, SAVE_SETTINGS_FORM], closeDrawerSaga);
   yield takeLatest(HANDLE_EDIT_ELEMENT, elementFormRequestSaga);
   yield takeLatest(HANDLE_EDIT_TAB, tabFormRequestSaga);
-  yield takeLatest(HANDLE_SETTINGS_FORM, settingsFormRequestSaga);
   yield takeLatest(IMPORT_FROM_BKP, importFromFileSaga);
   yield takeLatest(DELETE_TAB, deleteElemnentsFromTabSaga);
   yield takeLatest([DELETE_TAB, DELETE_ELEMENT, EXIT_EDITING_ELEMENT], closeDrawerSaga);

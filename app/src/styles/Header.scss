@@ -6,13 +6,16 @@
   text-align: center;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
   color: white;
   z-index: 100;
   padding: 0;
   -webkit-box-shadow: 0 3px 5px rgb(43, 43, 43);
   box-shadow: 0 3px 5px rgb(43, 43, 43);
-
+  .logo {
+    height: 30px;
+    margin-left: 20px;
+  }
   .settingsButton,
   .editButton {
     cursor: pointer;

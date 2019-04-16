@@ -29,7 +29,6 @@ import Tabs from './Tabs';
 import {getEditedElement, getElements} from '../store/selectors/elementsSelectors';
 import {getCurrentTab, getTabs} from '../store/selectors/tabsSelectors';
 import LabelForm from './LabelForm';
-import SettingsForm from './SettingsForm';
 import io from 'socket.io-client';
 
 library.add(faLock, faLockOpen, faPen, faEllipsisH, faExpand, faCogs);
@@ -103,7 +102,6 @@ class Board extends Component {
             [DrawerForms.SLIDER_FORM]  : <SliderForm/>,
             [DrawerForms.TAB_FORM]     : <TabForm/>,
             [DrawerForms.LABEL_FORM]   : <LabelForm/>,
-            [DrawerForms.SETTINGS_FORM]: <SettingsForm/>
         };
         return (
             <div className="board">
@@ -113,7 +111,6 @@ class Board extends Component {
                 </Drawer>
                 <Tabs/>
                 <div className={boardWrapper} data-tid="container">
-                    {this.props.loading ? <div className="loader">Loading...</div> : null}
                     <Elements
                         sendBtnMsg={(obj) => this.sendBtnMsg(obj)}
                         sendSliderMsg={(v, obj) => this.sendSliderMsg(obj, v)}/>
