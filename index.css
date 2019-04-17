@@ -157,3 +157,7 @@ input {
 .backup-buttons button {
     width: 50%;
 }
+
+.backup-buttons button:last-child {
+    margin-right: 0;
+}
