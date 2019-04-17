@@ -5,16 +5,18 @@ const { ipcRenderer } = require('electron');
 
 let midiInDevices = [];
 let midiOutDevices = [];
-let version = select('#version');
 const select = selector => document.querySelector(selector);
+let version = select('#version');
 
 ipcRenderer.on('version', (event, text) => {
+    console.log('text');
     version.innerText = text
 });
 
 ipcRenderer.on('message', function(event, text) {
-    var container = document.getElementById('messages');
-    var message = document.createElement('div');
+    console.log('text');
+    let container = document.getElementById('messages');
+    let message = document.createElement('div');
     message.innerHTML = text;
     container.appendChild(message);
 });
