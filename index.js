@@ -9,7 +9,6 @@ const select = selector => document.querySelector(selector);
 let version = select('#version');
 
 ipcRenderer.on('version', (event, text) => {
-    console.log(text);
     version.innerText = text
 });
 
