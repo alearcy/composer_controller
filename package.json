@@ -6,19 +6,14 @@
   "scripts": {
     "start": "electron .",
     "dist": "electron-builder",
-    "release": "build"
+    "release": "build",
+    "postinstall": "electron-builder install-app-deps"
   },
   "repository": {
     "type": "git",
     "url": "git@github.com:alearcy/composer_controller.git"
   },
-  "keywords": [
-    "Electron",
-    "quick",
-    "start",
-    "tutorial",
-    "demo"
-  ],
+  "keywords": [],
   "author": "Alessandro Arcidiaco",
   "license": "CC0-1.0",
   "devDependencies": {
@@ -36,10 +31,11 @@
     "ws": "^6.2.1"
   },
   "build": {
-    "appId": "it.alessandroarcidiaco.${name}",
+    "appId": "com.alessandroarcidiaco.${name}",
     "productName": "Composer Controller",
     "directories": {
-      "buildResources": "."
+      "buildResources": "public",
+      "app": "."
     },
     "mac": {
       "category": "public.app-category.music",
@@ -47,6 +43,9 @@
     },
     "linux": {
       "category": "Audio"
+    },
+    "win": {
+      "icon": "public/icon.ico"
     },
     "publish": [
       "github"

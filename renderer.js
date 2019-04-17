@@ -3,11 +3,12 @@ const path = require('path');
 const app = express();
 const WebMidi = require('webmidi');
 const low = require('lowdb');
+const remote = require('electron').remote;
+const electronApp = remote.app;
 const FileSync = require('lowdb/adapters/FileSync');
-const adapter = new FileSync('options.json');
+const adapter = new FileSync(electronApp.getPath('appData') + '/ControllerComposerOptions.json');
 const db = low(adapter);
 const cors = require('cors');
-const remote = require('electron').remote;
 const  fs = require('fs');
 const OSC = require('osc-js');
 const os = require('os');
@@ -80,7 +81,7 @@ io.sockets.on('connection', (socket) => {
             if (midi) {
                 if (msg.midiType === 'cc') {
                     // sendControlChange ( controller  [value=0]  [channel=all]  [options={}] )
-                    midi.sendControlChange(msg.value, 0, msg.channel);
+                    midi.sendControlChange(msg.value, 127, msg.channel);
                 } else {
                     // playNote ( note  [channel=all]  [options={}] )
                     midi.playNote(msg.value, msg.channel, {duration: 100});
