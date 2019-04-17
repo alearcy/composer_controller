@@ -5,27 +5,18 @@ const { ipcRenderer } = require('electron');
 
 let midiInDevices = [];
 let midiOutDevices = [];
-
-const select = selector => document.querySelector(selector);
-
-let container = select('#messages');
-let progressBar = select('#progressBar');
 let version = select('#version');
-
-ipcRenderer.on('message', (event, text) => {
-    console.log('text');
-    let message = document.createElement('div');
-    message.innerHTML = text;
-    container.appendChild(message)
-});
+const select = selector => document.querySelector(selector);
 
 ipcRenderer.on('version', (event, text) => {
     version.innerText = text
 });
 
-ipcRenderer.on('download-progress', (event, text) => {
-    console.log('text');
-    progressBar.style.width = `${text}%`
+ipcRenderer.on('message', function(event, text) {
+    var container = document.getElementById('messages');
+    var message = document.createElement('div');
+    message.innerHTML = text;
+    container.appendChild(message);
 });
 
 WebMidi.enable((err) => {

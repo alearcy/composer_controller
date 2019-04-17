@@ -41,7 +41,6 @@ function createWindow () {
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
   createWindow();
-  autoUpdater.checkForUpdatesAndNotify();
 
   mainWindow.webContents.on('did-finish-load', () => {
     mainWindow.webContents.send('version', app.getVersion())
@@ -61,22 +60,34 @@ app.on('activate', function () {
   if (mainWindow === null) createWindow()
 });
 
+function sendStatusToWindow(text) {
+  log.info(text);
+  mainWindow.webContents.send('message', text);
+}
+
+app.on('ready', () => {
+  autoUpdater.checkForUpdatesAndNotify();
+});
+
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
 autoUpdater.on('checking-for-update', () => {
-  dispatch('Checking for update...')
+  sendStatusToWindow('Checking for update...');
 });
-
 autoUpdater.on('update-available', (info) => {
-  dispatch('Update available.')
+  sendStatusToWindow('Update available.');
 });
-
 autoUpdater.on('update-not-available', (info) => {
-  dispatch('Update not available.')
+  sendStatusToWindow('Update not available.');
 });
-
 autoUpdater.on('error', (err) => {
-  dispatch('Error in auto-updater. ' + err)
+  sendStatusToWindow('Error in auto-updater. ' + err);
+});
+autoUpdater.on('download-progress', (progressObj) => {
+  let log_message = "Download speed: " + progressObj.bytesPerSecond;
+  log_message = log_message + ' - Downloaded ' + progressObj.percent + '%';
+  log_message = log_message + ' (' + progressObj.transferred + "/" + progressObj.total + ')';
+  sendStatusToWindow(log_message);
 });
 
 autoUpdater.on('download-progress', (progressObj) => {
