@@ -39,7 +39,10 @@
     },
     "mac": {
       "category": "public.app-category.music",
-      "target": "dmg"
+      "target": [
+        "dmg",
+        "zip"
+      ]
     },
     "linux": {
       "category": "Audio"
