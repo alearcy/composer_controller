@@ -61,12 +61,12 @@ app.on('activate', function () {
 });
 
 function sendStatusToWindow(text) {
-  log.info(text);
   mainWindow.webContents.send('message', text);
 }
 
 app.on('ready', () => {
   autoUpdater.checkForUpdatesAndNotify();
+  console.log(autoUpdater);
 });
 
 // In this file you can include the rest of your app's specific main process
