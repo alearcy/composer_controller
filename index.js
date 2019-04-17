@@ -13,6 +13,7 @@ let progressBar = select('#progressBar');
 let version = select('#version');
 
 ipcRenderer.on('message', (event, text) => {
+    console.log('text');
     let message = document.createElement('div');
     message.innerHTML = text;
     container.appendChild(message)
@@ -23,6 +24,7 @@ ipcRenderer.on('version', (event, text) => {
 });
 
 ipcRenderer.on('download-progress', (event, text) => {
+    console.log('text');
     progressBar.style.width = `${text}%`
 });
 
