@@ -9,12 +9,12 @@ const select = selector => document.querySelector(selector);
 let version = select('#version');
 
 ipcRenderer.on('version', (event, text) => {
-    console.log('text');
+    console.log(text);
     version.innerText = text
 });
 
 ipcRenderer.on('message', function(event, text) {
-    console.log('text');
+    console.log(text);
     let container = document.getElementById('messages');
     let message = document.createElement('div');
     message.innerHTML = text;
