@@ -113,7 +113,8 @@ class Board extends Component {
                 <div className={boardWrapper} data-tid="container">
                     <Elements
                         sendBtnMsg={(obj) => this.sendBtnMsg(obj)}
-                        sendSliderMsg={(v, obj) => this.sendSliderMsg(obj, v)}/>
+                        sendSliderMsg={(v, obj) => this.sendSliderMsg(obj, v)}
+                    />
                 </div>
                 <Footer
                     status={this.props.status}

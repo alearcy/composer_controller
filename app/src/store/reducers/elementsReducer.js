@@ -69,8 +69,8 @@ export default createReducer(initialState, {
       labelColor   : DefaultColors.TEXT_COLOR,
       minCcValue   : 0,
       maxCcValue   : 127,
-      minPitchValue: 0,
-      maxPitchValue: 16383,
+      minPitchValue: -1,
+      maxPitchValue: 1,
       orientation  : SliderOrientation.VERTICAL
     };
     return {
