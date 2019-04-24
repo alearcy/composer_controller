@@ -79,4 +79,4 @@ Build and release new version with `npm version patch|minor|major` first and the
 
 
 
-[CC0 1.0 (Public Domain)](LICENSE.md)
+This software is under [MIT License](LICENSE.md).
