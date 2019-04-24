@@ -61,6 +61,22 @@ The entire OSC message that will be sent is: _/tabName/OSCValue, MIDI value_
 Pressing the delete button let you remove elements from the board. If you delete a tab every child elements will be deleted! 
 So, remember to export a backup file from the server app.
 
+## For developers only
+
+Install client and server packages by running `npm install` in both root and app folder.
+
+For serve locally in dev mode both Electron (server) and React (client) run:
+
+`npm run start`
+
+For build a dist package run:
+
+`npm run dist`
+
+### For the repository owner only:
+
+Build and release new version with `npm version patch|minor|major` first and then `npm run release`.
+
 
 
 [CC0 1.0 (Public Domain)](LICENSE.md)
