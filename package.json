@@ -1,7 +1,7 @@
 {
   "name": "composer_controller",
   "version": "1.0.15",
-  "description": "A controller made by composer for composers",
+  "description": "OSC and MIDI controller by composer for composers",
   "main": "main.js",
   "scripts": {
     "start": "electron . & cd app && npm run start",
@@ -13,9 +13,9 @@
     "type": "git",
     "url": "git@github.com:alearcy/composer_controller.git"
   },
-  "keywords": [],
+  "keywords": ["OSC", "MIDI", "controller", "remote controller", "composer", "daw", "keyswitch"],
   "author": "Alessandro Arcidiaco",
-  "license": "CC0-1.0",
+  "license": "MIT",
   "devDependencies": {
     "electron": "^4.1.4",
     "electron-builder": "^20.39.0"
@@ -43,9 +43,6 @@
         "dmg",
         "zip"
       ]
-    },
-    "linux": {
-      "category": "Audio"
     },
     "win": {
       "icon": "public/icon.ico"
