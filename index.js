@@ -8,17 +8,18 @@ let midiOutDevices = [];
 const select = selector => document.querySelector(selector);
 let version = select('#version');
 
-// AUTO UPDATE IPC MESSAGES
 ipcRenderer.on('version', (event, text) => {
     version.innerText = text
 });
 
-ipcRenderer.on('message', function(event, text) {
-    let container = document.getElementById('messages');
-    let message = document.createElement('div');
-    message.innerHTML = text;
-    container.appendChild(message);
-});
+// AUTO UPDATE IPC MESSAGES
+
+// ipcRenderer.on('message', function(event, text) {
+//     let container = document.getElementById('messages');
+//     let message = document.createElement('div');
+//     message.innerHTML = text;
+//     container.appendChild(message);
+// });
 
 WebMidi.enable((err) => {
     if (err) {
