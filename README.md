@@ -1,13 +1,13 @@
-![logo](icon_readme.png)
+![logo](readme_images/icon_readme.png)
 
 # Composer Controller
 
 ### MIDI and OSC controller by composer for composers.
 
-![board](board.png)
+![board](readme_images/board.png)
 
 
-![board_edit](board_edit.png)
+![board_edit](readme_images/board_edit.png)
 
 **Read this first!**
 
@@ -30,30 +30,30 @@ Go [here](https://github.com/alearcy/composer_controller/releases) and download 
 
 The first time you launch the app, a window will appear that show the address that you have to copy and paste in your Chrome browser. 
 
-![server_window](server.png)
+![server_window](readme_images/server.png)
 
 Then, in your browser, you will see an empty board like this:
 
-![board_edit](board_empty.png)
+![board_edit](readme_images/board_empty.png)
 
 ### Configure your board
 
 Now you are able to click the top right pencil icon to switch in edit mode.
 
-![edit_mode](edit_mode.png)
+![edit_mode](readme_images/edit_mode.png)
 
 In edit mode you can create or rename tabs, buttons, faders and labels.
 
 When you put an elements on the board you can edit, drag, lock or resize it respectively with the pencil, dots, lock and square icons.
 
-![element](element.png)
+![element](readme_images/element.png)
 
 Pressing the pencil icon you will entry in edit mode where you can change name, color, midi channel, MIDI values and OSC values.
 
 We have two types of button messages: Note and Control Change (CC). For sliders we have Control Change and Pitchbend. 
 OSC name will be automatically set with a random string, but you can change with whatever you want.
 
-![edit_sidepanel](edit_sidepanel.png)
+![edit_sidepanel](readme_images/edit_sidepanel.png)
 
 
 
