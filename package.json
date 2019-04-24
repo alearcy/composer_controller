@@ -4,9 +4,9 @@
   "description": "A controller made by composer for composers",
   "main": "main.js",
   "scripts": {
-    "start": "electron .",
-    "dist": "electron-builder",
-    "release": "build",
+    "start": "electron . & cd app && npm run start",
+    "dist": "cd app && npm run build && cd .. && electron-builder",
+    "release": "cd app && npm run build && cd .. && build",
     "postinstall": "electron-builder install-app-deps"
   },
   "repository": {
