@@ -1,6 +1,6 @@
 {
   "name": "composer_controller",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "A controller made by composer for composers",
   "main": "main.js",
   "scripts": {
