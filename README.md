@@ -1,45 +1,25 @@
-# electron-quick-start
+# Composer Controller
 
-**Clone and run for a quick way to see Electron in action.**
+## MIDI and OSC controller by composer for composers.
 
-This is a minimal Electron application based on the [Quick Start Guide](https://electronjs.org/docs/tutorial/quick-start) within the Electron documentation.
+**Read this first!**
 
-**Use this app along with the [Electron API Demos](https://electronjs.org/#get-started) app for API code examples to help you get started.**
+Composer Controller at the moment is compatible for Mac and Chrome browser only. In the near future it will be compatible for Windows and Safari.
 
-A basic Electron application needs just these files:
+**What Composer Controller is**
 
-- `package.json` - Points to the app's main file and lists its details and dependencies.
-- `main.js` - Starts the app and creates a browser window to render HTML. This is the app's **main process**.
-- `index.html` - A web page to render. This is the app's **renderer process**.
+Composer Controller is an all-in-one solution designed to facilitate composers workflow and to control your DAW or virtual instruments within every device that run a browser.
+It has been inspired by [Junkie XL](https://www.youtube.com/watch?v=RSl_unnPab0``) and [Hans Zimmer](http://cdm.link/2012/10/interview-mark-wherry-man-behind-hollywoods-digital-musical-instruments-hans-zimmer-collaborator/) custom made touch screens solutions.
+The goal is that it's no longer necessary to have a mobile device with an app downloaded from a store and a separate desktop software to edit your boards. 
+With the same web interface now you can create your boards, assign MIDI and OSC messages, edit elements styles (buttons, sliders and labels) and monitoring messages. 
+The Composer Controller desktop app is only aimed to serve through the network lan your boards, monitor error messages and backup/import your boards. 
 
-You can learn more about each of these components within the [Quick Start Guide](https://electronjs.org/docs/tutorial/quick-start).
+**Installation**
 
-## To Use
+Go [here](https://github.com/alearcy/composer_controller/releases) and download the .dmg file from the latest release.
 
-To clone and run this repository you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)) installed on your computer. From your command line:
+**First launch**
 
-```bash
-# Clone this repository
-git clone https://github.com/electron/electron-quick-start
-# Go into the repository
-cd electron-quick-start
-# Install dependencies
-npm install
-# Run the app
-npm start
-```
-
-Note: If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.com/261575/how-to-run-graphical-linux-desktop-applications-from-windows-10s-bash-shell/) or use `node` from the command prompt.
-
-## Resources for Learning Electron
-
-- [electronjs.org/docs](https://electronjs.org/docs) - all of Electron's documentation
-- [electronjs.org/community#boilerplates](https://electronjs.org/community#boilerplates) - sample starter apps created by the community
-- [electron/electron-quick-start](https://github.com/electron/electron-quick-start) - a very basic starter Electron app
-- [electron/simple-samples](https://github.com/electron/simple-samples) - small applications with ideas for taking them further
-- [electron/electron-api-demos](https://github.com/electron/electron-api-demos) - an Electron app that teaches you how to use Electron
-- [hokein/electron-sample-apps](https://github.com/hokein/electron-sample-apps) - small demo apps for the various Electron APIs
-
-## License
+The first time you launch the app, a window will appear and show the address that you have to copy and paste in your Chrome browser. Then, you will see an empty board.
 
 [CC0 1.0 (Public Domain)](LICENSE.md)
