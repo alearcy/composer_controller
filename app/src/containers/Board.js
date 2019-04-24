@@ -11,7 +11,9 @@ import Elements from './Elements';
 import * as boardActions from '../store/actions/boardActions';
 import * as elementActions from '../store/actions/elementsAction';
 import {
-    getStatus
+    getStatus,
+    getMidiMsg,
+    getOscMsg,
 } from '../store/selectors/devicesSelectors';
 import {
     getEditingMode,
@@ -21,7 +23,7 @@ import {
     getSettings,
     getPublicIp
 } from '../store/selectors/boardSelectors';
-import * as sendersActions from '../store/actions/devicesActions';
+import * as devicesActions from '../store/actions/devicesActions';
 import TabForm from './TabForm';
 import ButtonForm from './ButtonForm';
 import SliderForm from './SliderForm';
@@ -49,20 +51,28 @@ class Board extends Component {
         socket = io(localIp);
         this.props.setPublicIp(localIp);
         this.props.initBoard();
-        this.props.sendConnectionStatus(ConnectionStatus.CONNECTED);
         socket.on('importBackupDone', () => {
             this.props.initBoard();
+        });
+        socket.on('connect', () => {
+            this.props.sendConnectionStatus(ConnectionStatus.CONNECTED);
+        });
+        socket.on('disconnect', () => {
+            this.props.sendConnectionStatus(ConnectionStatus.DISCONNECTED);
         });
     }
 
     sendOSC(obj, value) {
         const tabAddress = this.props.currentTab.label.replace(/\s+/g, '').toLowerCase();
         const address = `/${tabAddress}/${obj.oscValue}`;
+        const type = obj.midiType;
         const data = {
+            type,
             address,
             value
         };
         socket.emit('osc', data);
+        this.sendFormattedOscMessage(data);
     }
 
     sendMidiFromButtons(obj) {
@@ -72,6 +82,7 @@ class Board extends Component {
             value   : obj.value,
         };
         socket.emit('MIDIBTN', data);
+        this.sendFormattedMidiButtonMessage(data);
     }
 
     sendMidiFromSliders(obj, v) {
@@ -83,6 +94,7 @@ class Board extends Component {
             value   : v,
         };
         socket.emit('MIDISLIDER', data);
+        this.sendFormattedMidiSliderMessage(data);
     }
 
     sendBtnMsg(obj) {
@@ -95,13 +107,38 @@ class Board extends Component {
         this.sendMidiFromSliders(obj, v);
     }
 
+    sendFormattedOscMessage(data) {
+        let msg = '';
+        if (data.type === 'cc') {
+            msg = `${data.address}, ${data.value}`;
+        } else {
+            msg = `${data.address}, ${Math.floor(data.value*8191)}`;
+        }
+        this.props.sendOscMessage(msg);
+    }
+
+    sendFormattedMidiSliderMessage(data) {
+        let msg = '';
+        if (data.midiType === 'cc') {
+            msg = `Type: ${data.midiType}, Channel: ${data.channel}, value1: ${data.ccValue}, value2: ${data.value}`;
+        } else {
+            msg = `Type: ${data.midiType}, Channel: ${data.channel}, value: ${Math.floor(data.value*8191)}`;
+        }
+        this.props.sendMidiMessage(msg);
+    }
+
+    sendFormattedMidiButtonMessage(data) {
+        const msg = `Type: ${data.midiType}, Channel: ${data.channel}, value: ${data.value}`;
+        this.props.sendMidiMessage(msg);
+    }
+
     render() {
         const boardWrapper = classNames({'board-wrapper': true, 'editing-mode': this.props.isEditingMode});
         const drawerTypes = {
-            [DrawerForms.BUTTON_FORM]  : <ButtonForm/>,
-            [DrawerForms.SLIDER_FORM]  : <SliderForm/>,
-            [DrawerForms.TAB_FORM]     : <TabForm/>,
-            [DrawerForms.LABEL_FORM]   : <LabelForm/>,
+            [DrawerForms.BUTTON_FORM]: <ButtonForm/>,
+            [DrawerForms.SLIDER_FORM]: <SliderForm/>,
+            [DrawerForms.TAB_FORM]   : <TabForm/>,
+            [DrawerForms.LABEL_FORM] : <LabelForm/>,
         };
         return (
             <div className="board">
@@ -118,8 +155,8 @@ class Board extends Component {
                 </div>
                 <Footer
                     status={this.props.status}
-                    midiOut={this.props.settings.midiOutDevice}
-                    midiIn={this.props.settings.midiInDevice}
+                    midiMsg={this.props.midiMsg}
+                    oscMsg={this.props.oscMsg}
                     loading={this.props.loading}
                 />
             </div>
@@ -139,15 +176,19 @@ const mapStateToProps = state => ({
     currentTab   : getCurrentTab(state),
     settings     : getSettings(state),
     publicIp     : getPublicIp(state),
+    oscMsg       : getOscMsg(state),
+    midiMsg      : getMidiMsg(state),
 });
 
 const mapDispatchToProps = dispatch => ({
     toggleStatic        : obj => dispatch(elementActions.lockElement(obj)),
     exitEditingMode     : () => dispatch(boardActions.exitEditingMode()),
-    sendMidiOutDevice   : devices => dispatch(sendersActions.sendMidiOutDevice(devices)),
-    sendMidiInDevice    : devices => dispatch(sendersActions.sendMidiInDevice(devices)),
-    sendConnectionStatus: status => dispatch(sendersActions.sendConnectionStatus(status)),
-    sendSliderMessage   : (value, id) => dispatch(sendersActions.sendSliderMessage(value, id)),
+    sendMidiOutDevice   : devices => dispatch(devicesActions.sendMidiOutDevice(devices)),
+    sendMidiInDevice    : devices => dispatch(devicesActions.sendMidiInDevice(devices)),
+    sendConnectionStatus: status => dispatch(devicesActions.sendConnectionStatus(status)),
+    sendSliderMessage   : (value, id) => dispatch(devicesActions.sendSliderMessage(value, id)),
+    sendOscMessage      : value => dispatch(devicesActions.sendOSCMessage(value)),
+    sendMidiMessage     : value => dispatch(devicesActions.sendMIDIMessage(value)),
     initBoard           : () => dispatch(boardActions.initBoard()),
     importFromBkp       : objs => dispatch(boardActions.importFromBkp(objs)),
     setPublicIp         : ip => dispatch(boardActions.setPublicIp(ip))

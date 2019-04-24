@@ -109,26 +109,6 @@ const basicSliderForm = (props) => {
           </div>
         </div>
         }
-        {values.midiType === MidiTypes.PITCH &&
-        <div>
-          <div>
-            <label>Min value:</label>
-            <input name="minPitchValue"
-                   type="number"
-                   value={values.minPitchValue}
-                   onChange={handleChange}
-                   onBlur={handleBlur}/>
-          </div>
-          <div>
-            <label>Max value:</label>
-            <input name="maxPitchValue"
-                   type="number"
-                   value={values.maxPitchValue}
-                   onChange={handleChange}
-                   onBlur={handleBlur}/>
-          </div>
-        </div>
-        }
         <div className="submit-area">
           <button type="submit" disabled={isSubmitting} className="confirm">
             {isSubmitting ? 'Loading...' : 'Save'}

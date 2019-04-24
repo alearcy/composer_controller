@@ -14,6 +14,20 @@ export function sendMidiInDevice(devices) {
   };
 }
 
+export function sendOSCMessage(msg) {
+  return {
+    type: messageActions.SEND_OSC_MESSAGE,
+    payload: msg,
+  };
+}
+
+export function sendMIDIMessage(msg) {
+  return {
+    type: messageActions.SEND_MIDI_MESSAGE,
+    payload: msg,
+  };
+}
+
 export function sendSliderMessage(value, obj) {
   return {
     type: messageActions.SEND_SLIDER_MESSAGE,

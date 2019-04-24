@@ -1,8 +1,8 @@
 // CONNECTION STATUS
 export const ConnectionStatus = {
-  CONNECTING: 'connecting',
-  CONNECTED: 'connected',
-  DISCONNECTED: 'disconnected'
+  CONNECTING: 'Connecting',
+  CONNECTED: 'Connected',
+  DISCONNECTED: 'Disconnected'
 };
 
 // ELEMENTS TYPES
