@@ -8,12 +8,12 @@ let midiOutDevices = [];
 const select = selector => document.querySelector(selector);
 let version = select('#version');
 
+// AUTO UPDATE IPC MESSAGES
 ipcRenderer.on('version', (event, text) => {
     version.innerText = text
 });
 
 ipcRenderer.on('message', function(event, text) {
-    console.log(text);
     let container = document.getElementById('messages');
     let message = document.createElement('div');
     message.innerHTML = text;
@@ -37,11 +37,11 @@ WebMidi.enable((err) => {
 });
 
 $('#midiInputDevices').change(e => {
-    socket.emit('midiInputDevice', e.target.value);
+    socket.emit('setMidiInputDevice', e.target.value);
 });
 
 $('#midiOutputDevices').change(e => {
-    socket.emit('midiOutputDevice', e.target.value);
+    socket.emit('setMidiOutputDevice', e.target.value);
 });
 
 $('#exportBackup').on("click", (e) => {
@@ -62,33 +62,14 @@ socket.on('midiOutputDevice', (data) => {
     $("#midiOutputDevices").val(data);
 });
 
-socket.on('MIDIBTN', (data) => {
-    messageButtonHandler(data);
+socket.on('MESSAGE', (msg) => {
+    messageHandler(msg);
 });
 
-socket.on('MIDISLIDER', (data) => {
-    messageSliderHandler(data);
-});
-
-socket.on('ipMessage', (data) => {
-    ipAddressHandler(data);
-});
-
-function messageButtonHandler(msg) {
+function messageHandler(msg) {
     const div = $('#code');
-    div.append(`Type: ${msg.midiType} Value: ${msg.value} Channel: ${msg.channel}` + '<br />');
+    div.append(msg + '<br />');
     div.animate({ scrollTop: div.prop("scrollHeight") }, 5);
-}
-
-function messageSliderHandler(msg) {
-    const div = $('#code');
-    div.append(`Type ${msg.midiType} CC Number: ${msg.ccValue} Value: ${msg.value} Channel: ${msg.channel}` + '<br />');
-    div.animate({ scrollTop: div.prop("scrollHeight") }, 5);
-}
-
-function ipAddressHandler(ip) {
-    const ipAddress = ip;
-    $('#ip').html('<p class="ip">Ready to ' + ipAddress + '</p>');
 }
 
 

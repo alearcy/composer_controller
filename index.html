@@ -19,23 +19,22 @@
         <img class="logo" src="./logo.png" alt="logo">
     </header>
     <main>
-        <div id="errors"></div>
-        <section id="ip"></section>
         <div class="midiConfig">
             <div class="form-field">
-                <label for="midiInputDevices">MINI In</label>
+                <label for="midiInputDevices">MINI In:</label>
                 <select name="midiInputDevices" id="midiInputDevices">
                     <option value="" disabled selected>Choose MIDI input</option>
                 </select>
             </div>
             <div class="form-field">
-                <label for="midiOutputDevices">MINI Out</label>
+                <label for="midiOutputDevices">MINI Out:</label>
                 <select name="midiOutputDevices" id="midiOutputDevices">
                     <option value="" disabled selected>Choose MIDI output</option>
                 </select>
             </div>
         </div>
         <section id="code"></section>
+        <div class="backup-label">Backup:</div>
         <div class="backup-buttons">
             <button class="button neutral" id="exportBackup">Export</button>
             <button class="button neutral" id="importBackup">Import</button>

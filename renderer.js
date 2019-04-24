@@ -17,8 +17,10 @@ const port = 9000;
 
 let midiInputDevice = db.get('options.settings.midiInDevice').value() || undefined;
 let midiOutputDevice = db.get('options.settings.midiOutDevice').value() || undefined;
-let oscOutPort = db.get('options.settings.oscOutPort').value() || undefined;
+let oscOutPort = db.get('options.settings.oscOutPort').value();
+let oscInPort = db.get('options.settings.oscInPort').value();
 let ip = undefined;
+let counter = 0;
 
 app.use(cors());
 app.use(express.json());
@@ -57,7 +59,12 @@ const osc = new OSC({ plugin: new OSC.DatagramPlugin() });
 osc.open();
 
 io.sockets.on('connection', (socket) => {
-    checkIpAddress();
+    // prevent messages on every client connection
+    counter ++;
+    if (counter === 1) {
+        checkIpAddress();
+        io.sockets.emit('MESSAGE', `OSC input: ${oscInPort}, OSC output: ${oscOutPort}`);
+    }
 
     if (midiInputDevice !== undefined) {
         io.sockets.emit('midiInputDevice', midiInputDevice);
@@ -67,11 +74,7 @@ io.sockets.on('connection', (socket) => {
     }
 
     socket.on('osc', (msg) => {
-        if (oscOutPort !== undefined) {
-            osc.send(new OSC.Message(msg.address, msg.value), { port: oscOutPort })
-        }else{
-            error('OSC out port not configured');
-        }
+        osc.send(new OSC.Message(msg.address, msg.value), { port: oscOutPort })
     });
 
     socket.on('MIDIBTN', (msg) => {
@@ -88,7 +91,7 @@ io.sockets.on('connection', (socket) => {
                 }
             }
         } else {
-            error('Please, set a MIDI device first')
+            io.sockets.emit('MESSAGE', 'ERROR: Please, set a MIDI device first');
         }
     });
 
@@ -105,16 +108,19 @@ io.sockets.on('connection', (socket) => {
                 }
             }
         } else {
-            error('Please, set a MIDI device first')
+            io.sockets.emit('MESSAGE', 'ERROR: Please, set a MIDI device first');
         }
     });
 
-    socket.on('midiInputDevice', (msg) => {
+    socket.on('setMidiInputDevice', (msg) => {
         db.set('options.settings.midiInDevice', msg).write();
+        midiInputDevice = db.get('options.settings.midiInDevice').value();
+
     });
 
-    socket.on('midiOutputDevice', (msg) => {
+    socket.on('setMidiOutputDevice', (msg) => {
         db.set('options.settings.midiOutDevice', msg).write();
+        midiOutputDevice = db.get('options.settings.midiOutDevice').value();
     });
 
     socket.on('exportBackup', () => {
@@ -132,7 +138,11 @@ io.sockets.on('connection', (socket) => {
             const settings = db.get('options.settings').value();
             const content = JSON.stringify({elements, tabs, settings});
             fs.writeFile(fileName, content, (err) => {
-                if (err) console.error(err);
+                if (err) {
+                    io.sockets.emit('MESSAGE', 'ERROR: An error occurred exporting backup file');
+                    return;
+                }
+                io.sockets.emit('MESSAGE', 'Backup successfully exported')
             });
         });
     });
@@ -148,11 +158,16 @@ io.sockets.on('connection', (socket) => {
                 return;
             }
             fs.readFile(file[0], (err, data) => {
+                if (err) {
+                    io.sockets.emit('MESSAGE', 'ERROR: An error occurred importing backup file');
+                    return;
+                }
                 const objs = JSON.parse(data);
                 db.set('options.settings', objs.settings).write();
                 db.set('options.tabs', objs.tabs).write();
                 db.set('options.elements', objs.elements).write();
                 io.sockets.emit('importBackupDone');
+                io.sockets.emit('MESSAGE', 'Backup successfully loaded')
             });
         });
     });
@@ -163,11 +178,7 @@ function checkIpAddress() {
     connections.en0.forEach(conn => {
         if (conn.family === 'IPv4') {
             ip = conn.address + ':' + port;
-            io.sockets.emit('ipMessage', ip);
+            io.sockets.emit('MESSAGE', `Server started at ${ip}`);
         }
     });
-}
-
-function error(err) {
-    io.sockets.emit('error', err);
 }
