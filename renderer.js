@@ -15,10 +15,6 @@ const os = require('os');
 
 const port = 9000;
 
-let midiInputDevice = db.get('options.settings.midiInDevice').value() || undefined;
-let midiOutputDevice = db.get('options.settings.midiOutDevice').value() || undefined;
-let oscOutPort = db.get('options.settings.oscOutPort').value();
-let oscInPort = db.get('options.settings.oscInPort').value();
 let ip = undefined;
 let counter = 0;
 
@@ -35,10 +31,18 @@ db.defaults(
         options: {
             elements: [],
             tabs    : [],
-            settings: {}
+            settings: {
+                oscInPort: 9003,
+                oscOutPort: 9002
+            }
         }
     })
     .write();
+
+let midiInputDevice = db.get('options.settings.midiInDevice').value() || undefined;
+let midiOutputDevice = db.get('options.settings.midiOutDevice').value() || undefined;
+let oscOutPort = db.get('options.settings.oscOutPort').value();
+let oscInPort = db.get('options.settings.oscInPort').value();
 
 // GET /posts/:id
 app.get('/db', (req, res) => {
@@ -91,7 +95,7 @@ io.sockets.on('connection', (socket) => {
                 }
             }
         } else {
-            io.sockets.emit('MESSAGE', 'ERROR: Please, set a MIDI device first');
+            io.sockets.emit('ERROR_MESSAGE', 'ERROR: Please, set a MIDI device first');
         }
     });
 
@@ -108,7 +112,7 @@ io.sockets.on('connection', (socket) => {
                 }
             }
         } else {
-            io.sockets.emit('MESSAGE', 'ERROR: Please, set a MIDI device first');
+            io.sockets.emit('ERROR_MESSAGE', 'ERROR: Please, set a MIDI device first');
         }
     });
 
@@ -139,7 +143,7 @@ io.sockets.on('connection', (socket) => {
             const content = JSON.stringify({elements, tabs, settings});
             fs.writeFile(fileName, content, (err) => {
                 if (err) {
-                    io.sockets.emit('MESSAGE', 'ERROR: An error occurred exporting backup file');
+                    io.sockets.emit('ERROR_MESSAGE', 'ERROR: An error occurred exporting backup file');
                     return;
                 }
                 io.sockets.emit('MESSAGE', 'Backup successfully exported')
@@ -159,7 +163,7 @@ io.sockets.on('connection', (socket) => {
             }
             fs.readFile(file[0], (err, data) => {
                 if (err) {
-                    io.sockets.emit('MESSAGE', 'ERROR: An error occurred importing backup file');
+                    io.sockets.emit('ERROR_MESSAGE', 'ERROR: An error occurred importing backup file');
                     return;
                 }
                 const objs = JSON.parse(data);
@@ -178,7 +182,7 @@ function checkIpAddress() {
     connections.en0.forEach(conn => {
         if (conn.family === 'IPv4') {
             ip = conn.address + ':' + port;
-            io.sockets.emit('MESSAGE', `Server started at ${ip}`);
+            io.sockets.emit('START_MESSAGE', `Ready! Open your browser and go to ${ip}`);
         }
     });
 }

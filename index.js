@@ -67,12 +67,31 @@ socket.on('MESSAGE', (msg) => {
     messageHandler(msg);
 });
 
+socket.on('ERROR_MESSAGE', (msg) => {
+    errorMessageHandler(msg);
+});
+
+socket.on('START_MESSAGE', (msg) => {
+    startMessageHandler(msg);
+});
+
 function messageHandler(msg) {
     const div = $('#code');
-    div.append(msg + '<br />');
+    div.append('<div>' + msg + '</div><br />');
     div.animate({ scrollTop: div.prop("scrollHeight") }, 5);
 }
 
+function errorMessageHandler(msg) {
+    const div = $('#code');
+    div.append('<div class="error-message">' + msg + '</div><br />');
+    div.animate({ scrollTop: div.prop("scrollHeight") }, 5);
+}
+
+function startMessageHandler(msg) {
+    const div = $('#code');
+    div.append('<div class="start-message">' + msg + '</div><br />');
+    div.animate({ scrollTop: div.prop("scrollHeight") }, 5);
+}
 
 
 

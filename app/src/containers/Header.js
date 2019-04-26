@@ -31,7 +31,7 @@ const Header = ({
                         New button
                     </button>
                     <button type="button" onPointerDown={() => createSlider(currentTab)}>
-                        New slider
+                        New fader
                     </button>
                     <button type="button" onPointerDown={() => createLabel(currentTab)}>
                         New label

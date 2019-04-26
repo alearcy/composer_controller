@@ -169,3 +169,11 @@ input {
     color: white;
     margin-top: 10px;
 }
+
+.error-message {
+    color: #e74c3c;
+}
+
+.start-message {
+    color: #00ab6b;
+}
