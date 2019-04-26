@@ -1,6 +1,6 @@
 {
   "name": "composer_controller",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "description": "OSC and MIDI controller by composer for composers",
   "main": "main.js",
   "scripts": {
@@ -13,7 +13,15 @@
     "type": "git",
     "url": "git@github.com:alearcy/composer_controller.git"
   },
-  "keywords": ["OSC", "MIDI", "controller", "remote controller", "composer", "daw", "keyswitch"],
+  "keywords": [
+    "OSC",
+    "MIDI",
+    "controller",
+    "remote controller",
+    "composer",
+    "daw",
+    "keyswitch"
+  ],
   "author": "Alessandro Arcidiaco",
   "license": "MIT",
   "devDependencies": {
