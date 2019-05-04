@@ -1,6 +1,6 @@
 {
   "name": "composer_controller",
-  "version": "1.0.16",
+  "version": "1.0.17",
   "description": "OSC and MIDI controller by composer for composers",
   "main": "main.js",
   "scripts": {
