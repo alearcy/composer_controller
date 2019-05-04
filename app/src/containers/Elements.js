@@ -16,7 +16,8 @@ const Elements = ({
   sendSliderMsg,
   currentTab,
   editElement,
-  elements
+  elements,
+  resetPitch
 }) =>
   elements.map(
     obj =>
@@ -37,7 +38,7 @@ const Elements = ({
               : (e, direction, ref) => updateElementSize(ref, obj.id)
           }
           dragHandleClassName="draggable"
-          resizeHandleClasses={{bottomRight: 'resizable'}}
+          resizeHandleClasses={{ bottomRight: 'resizable' }}
           enableResizing={{
             top: false,
             right: false,
@@ -57,6 +58,7 @@ const Elements = ({
             sendSliderMsg={v => sendSliderMsg(v, obj)}
             editElement={(id) => editElement(id)}
             toggleStatic={() => toggleStatic(obj)}
+            resetPitch={() => resetPitch(obj)}
           />
         </Rnd>
       ) : null

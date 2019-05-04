@@ -16,30 +16,30 @@ import {
 import { uuidGen } from '../../helpers/uuid-generator';
 
 const initialState = {
-  elements              : [],
-  editedElementId       : '',
+  elements: [],
+  editedElementId: '',
   isStyleColorPickerOpen: false,
-  isLabelColor          : false,
+  isLabelColor: false,
 };
 
 export default createReducer(initialState, {
-  [RESET_BOARD]              : () => ({ ...initialState }),
-  [CREATE_BUTTON]            : (state, action) => {
+  [RESET_BOARD]: () => ({ ...initialState }),
+  [CREATE_BUTTON]: (state, action) => {
     const id = uuidGen();
     const element = {
       id,
-      x         : 0,
-      y         : 0,
-      w         : 100,
-      h         : 100,
-      static    : false,
-      label     : '',
-      tab       : action.payload,
-      type      : ElementTypes.BTN,
-      midiType  : MidiTypes.NOTE,
-      channel   : 1,
-      value     : 0,
-      oscValue  : id,
+      x: 0,
+      y: 0,
+      w: 100,
+      h: 100,
+      static: false,
+      label: 'Label',
+      tab: action.payload,
+      type: ElementTypes.BTN,
+      midiType: MidiTypes.NOTE,
+      channel: 1,
+      value: 0,
+      oscValue: id,
       styleColor: DefaultColors.STYLE_COLOR,
       labelColor: DefaultColors.TEXT_COLOR
     };
@@ -48,49 +48,49 @@ export default createReducer(initialState, {
       elements: [...state.elements, element]
     };
   },
-  [CREATE_SLIDER]            : (state, action) => {
+  [CREATE_SLIDER]: (state, action) => {
     const id = uuidGen();
     const element = {
       id,
-      x            : 0,
-      y            : 0,
-      w            : 100,
-      h            : 300,
-      static       : false,
-      label        : '',
-      tab          : action.payload,
-      type         : ElementTypes.SLIDER,
-      midiType     : MidiTypes.CC,
-      channel      : 1,
-      value        : 0,
-      ccValue      : 0,
-      oscValue     : id,
-      styleColor   : DefaultColors.STYLE_COLOR,
-      labelColor   : DefaultColors.TEXT_COLOR,
-      minCcValue   : 0,
-      maxCcValue   : 127,
+      x: 0,
+      y: 0,
+      w: 100,
+      h: 300,
+      static: false,
+      label: 'Label',
+      tab: action.payload,
+      type: ElementTypes.SLIDER,
+      midiType: MidiTypes.CC,
+      channel: 1,
+      value: 0,
+      ccValue: 0,
+      oscValue: id,
+      styleColor: DefaultColors.STYLE_COLOR,
+      labelColor: DefaultColors.TEXT_COLOR,
+      minCcValue: 0,
+      maxCcValue: 127,
       minPitchValue: -1,
       maxPitchValue: 1,
-      orientation  : SliderOrientation.VERTICAL
+      orientation: SliderOrientation.VERTICAL
     };
     return {
       ...state,
       elements: [...state.elements, element]
     };
   },
-  [CREATE_LABEL]             : (state, action) => {
+  [CREATE_LABEL]: (state, action) => {
     const id = uuidGen();
     const element = {
       id,
-      x        : 0,
-      y        : 0,
-      w        : 100,
-      h        : 50,
-      static   : false,
-      label    : 'label',
-      tab      : action.payload,
-      type     : ElementTypes.LABEL,
-      color    : DefaultColors.LABEL_TEXT_COLOR,
+      x: 0,
+      y: 0,
+      w: 100,
+      h: 50,
+      static: false,
+      label: 'label',
+      tab: action.payload,
+      type: ElementTypes.LABEL,
+      color: DefaultColors.LABEL_TEXT_COLOR,
       textAlign: 'center'
     };
     return {
@@ -98,7 +98,7 @@ export default createReducer(initialState, {
       elements: [...state.elements, element]
     };
   },
-  [UPDATE_ELEMENT_POS]       : (state, action) => ({
+  [UPDATE_ELEMENT_POS]: (state, action) => ({
     ...state,
     elements: state.elements.map(
       el =>
@@ -111,7 +111,7 @@ export default createReducer(initialState, {
           : el
     )
   }),
-  [UPDATE_ELEMENT_SIZE]      : (state, action) => ({
+  [UPDATE_ELEMENT_SIZE]: (state, action) => ({
     ...state,
     elements: state.elements.map(
       el =>
@@ -124,27 +124,27 @@ export default createReducer(initialState, {
           : el
     )
   }),
-  [LOCK_ELEMENT]             : (state, action) => ({
+  [LOCK_ELEMENT]: (state, action) => ({
     ...state,
     elements: state.elements.map(
       el => (el.id === action.payload ? { ...el, static: !el.static } : el)
     )
   }),
-  [SAVE_ELEMENT_FORM]        : (state, action) => ({
+  [SAVE_ELEMENT_FORM]: (state, action) => ({
     ...state,
     elements: state.elements.map(
       o => (o.id === action.payload.id ? action.payload : o)
     )
   }),
-  [LOAD_ELEMENTS]            : (state, action) => ({
+  [LOAD_ELEMENTS]: (state, action) => ({
     ...state,
     elements: action.payload
   }),
-  [HANDLE_EDIT_ELEMENT]      : (state, action) => ({
+  [HANDLE_EDIT_ELEMENT]: (state, action) => ({
     ...state,
     editedElementId: action.payload
   }),
-  [SEND_SLIDER_MESSAGE]      : (state, action) => ({
+  [SEND_SLIDER_MESSAGE]: (state, action) => ({
     ...state,
     elements: state.elements.map(
       el =>
@@ -157,11 +157,11 @@ export default createReducer(initialState, {
     ...state,
     elements: action.payload
   }),
-  [DELETE_ELEMENT]           : (state, action) => ({
+  [DELETE_ELEMENT]: (state, action) => ({
     ...state,
     elements: state.elements.filter(el => el.id !== action.payload),
   }),
-  [DELETE_ELEMENTS_FROM_TAB] : (state, action) => ({
+  [DELETE_ELEMENTS_FROM_TAB]: (state, action) => ({
     ...state,
     elements: state.elements.filter(el => el.tab.id !== action.payload),
   })

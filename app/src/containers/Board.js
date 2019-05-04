@@ -1,9 +1,9 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import {library} from '@fortawesome/fontawesome-svg-core';
-import {faLock, faLockOpen, faPen, faEllipsisH, faExpand, faCogs} from '@fortawesome/free-solid-svg-icons';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faLock, faLockOpen, faPen, faEllipsisH, faExpand, faCogs } from '@fortawesome/free-solid-svg-icons';
 import classNames from 'classnames';
-import {DrawerForms, ConnectionStatus} from '../constants/genericConstants';
+import { DrawerForms, ConnectionStatus, MidiTypes } from '../constants/genericConstants';
 import Drawer from '../components/Drawer';
 import Header from './Header';
 import Footer from '../components/Footer';
@@ -28,10 +28,11 @@ import TabForm from './TabForm';
 import ButtonForm from './ButtonForm';
 import SliderForm from './SliderForm';
 import Tabs from './Tabs';
-import {getEditedElement, getElements} from '../store/selectors/elementsSelectors';
-import {getCurrentTab, getTabs} from '../store/selectors/tabsSelectors';
+import { getEditedElement, getElements } from '../store/selectors/elementsSelectors';
+import { getCurrentTab, getTabs } from '../store/selectors/tabsSelectors';
 import LabelForm from './LabelForm';
 import io from 'socket.io-client';
+import { isArray } from 'util';
 
 library.add(faLock, faLockOpen, faPen, faEllipsisH, faExpand, faCogs);
 
@@ -43,6 +44,7 @@ class Board extends Component {
         this.sendOSC = this.sendOSC.bind(this);
         this.sendMidiFromButtons = this.sendMidiFromButtons.bind(this);
         this.sendMidiFromSliders = this.sendMidiFromSliders.bind(this);
+        this.handleResetPitch = this.handleResetPitch.bind(this);
     }
 
     componentDidMount() {
@@ -78,8 +80,8 @@ class Board extends Component {
     sendMidiFromButtons(obj) {
         const data = {
             midiType: obj.midiType,
-            channel : obj.channel,
-            value   : obj.value,
+            channel: obj.channel,
+            value: obj.value,
         };
         socket.emit('MIDIBTN', data);
         this.sendFormattedMidiButtonMessage(data);
@@ -89,9 +91,9 @@ class Board extends Component {
         this.props.sendSliderMessage(v, obj.id);
         const data = {
             midiType: obj.midiType,
-            channel : obj.channel,
-            ccValue : obj.ccValue,
-            value   : v,
+            channel: obj.channel,
+            ccValue: obj.ccValue,
+            value: obj.midiType === MidiTypes.PITCH ? v : Math.floor(v),
         };
         socket.emit('MIDISLIDER', data);
         this.sendFormattedMidiSliderMessage(data);
@@ -103,26 +105,27 @@ class Board extends Component {
     }
 
     sendSliderMsg(obj, v) {
-        this.sendOSC(obj, v);
-        this.sendMidiFromSliders(obj, v);
+        const value = Array.isArray(v) ? v[0] : 0
+        this.sendOSC(obj, value);
+        this.sendMidiFromSliders(obj, value);
     }
 
     sendFormattedOscMessage(data) {
         let msg = '';
-        if (data.type === 'cc') {
-            msg = `${data.address}, ${data.value}`;
+        if (data.type === MidiTypes.CC || data.type === MidiTypes.NOTE) {
+            msg = `${data.address}, ${Math.floor(data.value)}`;
         } else {
-            msg = `${data.address}, ${Math.floor(data.value*8191)}`;
+            msg = `${data.address}, ${Math.floor(data.value * 8191)}`;
         }
         this.props.sendOscMessage(msg);
     }
 
     sendFormattedMidiSliderMessage(data) {
         let msg = '';
-        if (data.midiType === 'cc') {
+        if (data.midiType === MidiTypes.CC || data.type === MidiTypes.NOTE) {
             msg = `Type: ${data.midiType}, Channel: ${data.channel}, value1: ${data.ccValue}, value2: ${data.value}`;
         } else {
-            msg = `Type: ${data.midiType}, Channel: ${data.channel}, value: ${Math.floor(data.value*8191)}`;
+            msg = `Type: ${data.midiType}, Channel: ${data.channel}, value: ${Math.floor(data.value * 8191)}`;
         }
         this.props.sendMidiMessage(msg);
     }
@@ -132,25 +135,32 @@ class Board extends Component {
         this.props.sendMidiMessage(msg);
     }
 
+    handleResetPitch(obj) {
+        if (obj.midiType === MidiTypes.PITCH) {
+            this.sendSliderMsg(obj, 0)
+        }
+    }
+
     render() {
-        const boardWrapper = classNames({'board-wrapper': true, 'editing-mode': this.props.isEditingMode});
+        const boardWrapper = classNames({ 'board-wrapper': true, 'editing-mode': this.props.isEditingMode });
         const drawerTypes = {
-            [DrawerForms.BUTTON_FORM]: <ButtonForm/>,
-            [DrawerForms.SLIDER_FORM]: <SliderForm/>,
-            [DrawerForms.TAB_FORM]   : <TabForm/>,
-            [DrawerForms.LABEL_FORM] : <LabelForm/>,
+            [DrawerForms.BUTTON_FORM]: <ButtonForm />,
+            [DrawerForms.SLIDER_FORM]: <SliderForm />,
+            [DrawerForms.TAB_FORM]: <TabForm />,
+            [DrawerForms.LABEL_FORM]: <LabelForm />,
         };
         return (
             <div className="board">
-                <Header/>
+                <Header />
                 <Drawer open={this.props.isOpenDrawer}>
                     {drawerTypes[this.props.formRequested]}
                 </Drawer>
-                <Tabs/>
+                <Tabs />
                 <div className={boardWrapper} data-tid="container">
                     <Elements
                         sendBtnMsg={(obj) => this.sendBtnMsg(obj)}
                         sendSliderMsg={(v, obj) => this.sendSliderMsg(obj, v)}
+                        resetPitch={(obj) => this.handleResetPitch(obj)}
                     />
                 </div>
                 <Footer
@@ -165,33 +175,33 @@ class Board extends Component {
 }
 
 const mapStateToProps = state => ({
-    obj          : getEditedElement(state),
-    status       : getStatus(state),
-    elements     : getElements(state),
-    tabs         : getTabs(state),
+    obj: getEditedElement(state),
+    status: getStatus(state),
+    elements: getElements(state),
+    tabs: getTabs(state),
     isEditingMode: getEditingMode(state),
-    isOpenDrawer : isOpenDrawer(state),
+    isOpenDrawer: isOpenDrawer(state),
     formRequested: formRequested(state),
-    loading      : getLoading(state),
-    currentTab   : getCurrentTab(state),
-    settings     : getSettings(state),
-    publicIp     : getPublicIp(state),
-    oscMsg       : getOscMsg(state),
-    midiMsg      : getMidiMsg(state),
+    loading: getLoading(state),
+    currentTab: getCurrentTab(state),
+    settings: getSettings(state),
+    publicIp: getPublicIp(state),
+    oscMsg: getOscMsg(state),
+    midiMsg: getMidiMsg(state),
 });
 
 const mapDispatchToProps = dispatch => ({
-    toggleStatic        : obj => dispatch(elementActions.lockElement(obj)),
-    exitEditingMode     : () => dispatch(boardActions.exitEditingMode()),
-    sendMidiOutDevice   : devices => dispatch(devicesActions.sendMidiOutDevice(devices)),
-    sendMidiInDevice    : devices => dispatch(devicesActions.sendMidiInDevice(devices)),
+    toggleStatic: obj => dispatch(elementActions.lockElement(obj)),
+    exitEditingMode: () => dispatch(boardActions.exitEditingMode()),
+    sendMidiOutDevice: devices => dispatch(devicesActions.sendMidiOutDevice(devices)),
+    sendMidiInDevice: devices => dispatch(devicesActions.sendMidiInDevice(devices)),
     sendConnectionStatus: status => dispatch(devicesActions.sendConnectionStatus(status)),
-    sendSliderMessage   : (value, id) => dispatch(devicesActions.sendSliderMessage(value, id)),
-    sendOscMessage      : value => dispatch(devicesActions.sendOSCMessage(value)),
-    sendMidiMessage     : value => dispatch(devicesActions.sendMIDIMessage(value)),
-    initBoard           : () => dispatch(boardActions.initBoard()),
-    importFromBkp       : objs => dispatch(boardActions.importFromBkp(objs)),
-    setPublicIp         : ip => dispatch(boardActions.setPublicIp(ip))
+    sendSliderMessage: (value, id) => dispatch(devicesActions.sendSliderMessage(value, id)),
+    sendOscMessage: value => dispatch(devicesActions.sendOSCMessage(value)),
+    sendMidiMessage: value => dispatch(devicesActions.sendMIDIMessage(value)),
+    initBoard: () => dispatch(boardActions.initBoard()),
+    importFromBkp: objs => dispatch(boardActions.importFromBkp(objs)),
+    setPublicIp: ip => dispatch(boardActions.setPublicIp(ip))
 });
 
 export default connect(
