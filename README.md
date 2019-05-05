@@ -2,7 +2,7 @@
 
 # Composer Controller
 
-### MIDI and OSC controller by composer for composers.
+### MIDI and OSC controller: by composer for composers.
 
 ![board](readme_images/board.png)
 
