@@ -32,7 +32,7 @@ import { getEditedElement, getElements } from '../store/selectors/elementsSelect
 import { getCurrentTab, getTabs } from '../store/selectors/tabsSelectors';
 import LabelForm from './LabelForm';
 import io from 'socket.io-client';
-import { isArray } from 'util';
+import TabletOverlay from "../components/TabletOverlay";
 
 library.add(faLock, faLockOpen, faPen, faEllipsisH, faExpand, faCogs);
 
@@ -151,7 +151,8 @@ class Board extends Component {
         };
         return (
             <div className="board">
-                <Header />
+                {this.props.isEditingMode && <TabletOverlay/>}
+                <Header status={this.props.status} />
                 <Drawer open={this.props.isOpenDrawer}>
                     {drawerTypes[this.props.formRequested]}
                 </Drawer>
