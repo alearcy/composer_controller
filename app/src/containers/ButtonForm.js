@@ -81,7 +81,7 @@ const basicButtonForm = (props) => {
                  onBlur={handleBlur}/>
         </div>
         <div>
-          <label>Value:</label>
+          <label>Value: {values.midiType === MidiTypes.NOTE && "(60 = C3, 72 = C4)"}</label>
           <div className="note-value-box">
             <input name="value"
                    type="number"
