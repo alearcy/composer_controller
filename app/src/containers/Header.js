@@ -23,8 +23,8 @@ const Header = ({
         <img className='logo' src={logo} alt="Logo"/>
         <div className="tools">
             {isEditingMode ?
-                <div>
-                    <button type="button" onPointerDown={createTab}>
+                <div style={{display: "flex", alignItems: "center"}}>
+                    <button type="button" className="new-tab" onPointerDown={createTab}>
                         New tab
                     </button>
                     <button type="button" onPointerDown={() => createButton(currentTab)}>
@@ -36,12 +36,15 @@ const Header = ({
                     <button type="button" onPointerDown={() => createLabel(currentTab)}>
                         New label
                     </button>
-                    <button type="button" onPointerDown={saveLayout} className="confirm">
-                        Save
-                    </button>
-                    <button type="button" onPointerDown={exitEditingMode} className="neutral">
-                        Cancel
-                    </button>
+                  <div style={{margin: "0 20px 0 10px"}}>|</div>
+                    <div>
+                      <button type="button" onPointerDown={saveLayout} className="confirm">
+                          Save
+                      </button>
+                      <button type="button" onPointerDown={exitEditingMode} className="neutral">
+                          Cancel
+                      </button>
+                    </div>
                 </div>
                 : null}
         </div>

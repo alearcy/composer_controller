@@ -33,4 +33,10 @@ button {
     border: 1px solid white;
     color: white;
   }
+
+  &.new-tab {
+    background: none;
+    border: 1px solid #FFD200;
+    color: #FFD200;
+  }
 }
