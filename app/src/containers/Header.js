@@ -1,17 +1,21 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {getEditingMode} from '../store/selectors/boardSelectors';
+import {getEditingMode, getVisibilityMode} from '../store/selectors/boardSelectors';
 import * as boardActions from '../store/actions/boardActions';
 import * as elementsActions from '../store/actions/elementsAction';
 import * as tabsActions from '../store/actions/tabsActions';
 import {getCurrentTab} from '../store/selectors/tabsSelectors';
 import logo from '../logo.png';
+import { ReactComponent as Visibility } from '../visibility.svg';
+import { ReactComponent as VisibilityNot } from '../visibility-not.svg';
 
 const Header = ({
                     isEditingMode,
+                  isMobilePreview,
                     exitEditingMode,
                     handleEditingMode,
+                    handleVisibilityMode,
                     createButton,
                     createSlider,
                     createLabel,
@@ -24,6 +28,9 @@ const Header = ({
         <div className="tools">
             {isEditingMode ?
                 <div style={{display: "flex", alignItems: "center"}}>
+                    <div style={{width: 30, height: '100%', cursor: "pointer", marginRight: 20}} onClick={handleVisibilityMode}>
+                      {isMobilePreview ? <Visibility /> : <VisibilityNot />}
+                    </div>
                     <button type="button" className="new-tab" onPointerDown={createTab}>
                         New tab
                     </button>
@@ -59,10 +66,12 @@ const Header = ({
 
 const mapStateToProps = state => ({
     isEditingMode: getEditingMode(state),
-    currentTab   : getCurrentTab(state)
+    currentTab   : getCurrentTab(state),
+  isMobilePreview   : getVisibilityMode(state),
 });
 const mapDispatchToProps = dispatch => ({
     handleEditingMode : () => dispatch(boardActions.handleEditingMode()),
+    handleVisibilityMode : () => dispatch(boardActions.handleVisibilityMode()),
     createButton      : currentTab => dispatch(elementsActions.createButton(currentTab)),
     createSlider      : currentTab => dispatch(elementsActions.createSlider(currentTab)),
     createLabel       : currentTab => dispatch(elementsActions.createLabel(currentTab)),

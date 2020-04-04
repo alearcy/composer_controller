@@ -1,6 +1,7 @@
 import createReducer from '../../helpers/create-reducer';
 import {
     HANDLE_EDITING_MODE,
+    HANDLE_VISIBILITY_MODE,
     RESET_BOARD,
     HANDLE_LOADING,
     HANDLE_CLOSE_DRAWER,
@@ -17,6 +18,7 @@ import {
 
 const initialState = {
     isEditingMode   : false,
+    isVisibilityMode   : false,
     loading         : false,
     isOpenDrawer    : false,
     formRequested   : '',
@@ -35,6 +37,10 @@ export default createReducer(initialState, {
     [HANDLE_EDITING_MODE]      : (state) => ({
         ...state,
         isEditingMode: !state.isEditingMode
+    }),
+    [HANDLE_VISIBILITY_MODE]      : (state) => ({
+        ...state,
+        isVisibilityMode: !state.isVisibilityMode
     }),
     [EXIT_EDITING_MODE]        : (state, action) => ({
         ...state,

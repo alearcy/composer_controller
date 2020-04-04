@@ -21,7 +21,7 @@ import {
     isOpenDrawer,
     formRequested,
     getSettings,
-    getPublicIp
+    getPublicIp, getVisibilityMode
 } from '../store/selectors/boardSelectors';
 import * as devicesActions from '../store/actions/devicesActions';
 import TabForm from './TabForm';
@@ -142,7 +142,7 @@ class Board extends Component {
     }
 
     render() {
-        const boardWrapper = classNames({ 'board-wrapper': true, 'editing-mode': this.props.isEditingMode });
+        const boardWrapper = classNames({ 'board-wrapper': true, 'editing-mode': this.props.isEditingMode, 'visibilityMode': this.props.isVisibilityMode });
         const drawerTypes = {
             [DrawerForms.BUTTON_FORM]: <ButtonForm />,
             [DrawerForms.SLIDER_FORM]: <SliderForm />,
@@ -151,7 +151,7 @@ class Board extends Component {
         };
         return (
             <div className="board">
-                {this.props.isEditingMode && <TabletOverlay/>}
+                {this.props.isEditingMode && this.props.isVisibilityMode && <TabletOverlay/>}
                 <Header status={this.props.status} />
                 <Drawer open={this.props.isOpenDrawer}>
                     {drawerTypes[this.props.formRequested]}
@@ -181,6 +181,7 @@ const mapStateToProps = state => ({
     elements: getElements(state),
     tabs: getTabs(state),
     isEditingMode: getEditingMode(state),
+    isVisibilityMode: getVisibilityMode(state),
     isOpenDrawer: isOpenDrawer(state),
     formRequested: formRequested(state),
     loading: getLoading(state),
