@@ -6,6 +6,12 @@ export function handleEditingMode() {
   };
 }
 
+export function handleVisibilityMode() {
+  return {
+    type: actions.HANDLE_VISIBILITY_MODE
+  };
+}
+
 export function exitEditingMode() {
   return {
     type   : actions.EXIT_EDITING_MODE,

@@ -5,6 +5,8 @@
   padding: 0;
   background: #5a5a5a;
   display: flex;
+  position: relative;
+  z-index: 1;
 
   .tab {
     flex: 1;

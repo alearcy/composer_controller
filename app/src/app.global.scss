@@ -62,6 +62,23 @@ div[data-reactroot] {
   width: 100%;
 }
 
+.tablet-overlay {
+  width: 1024px;
+  height: 768px - 30px;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: transparent;
+  z-index: 0;
+}
+
+.tablet-overlay-small {
+  @extend .tablet-overlay;
+  width: 800px;
+  height: 600px - 30px;
+}
+
 .board-wrapper {
   height: calc(100% - 110px);
   width: 100%;
@@ -69,6 +86,9 @@ div[data-reactroot] {
 
   &.editing-mode {
     overflow: auto;
+  }
+  &.visibilityMode {
+    opacity: .1;
   }
 }
 

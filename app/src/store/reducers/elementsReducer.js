@@ -9,7 +9,6 @@ import {
   LOCK_ELEMENT,
   RESET_BOARD,
   SAVE_ELEMENT_FORM,
-  SEND_SLIDER_MESSAGE,
   UPDATE_ELEMENT_POS,
   UPDATE_ELEMENT_SIZE
 } from '../../constants/actionConstants';
@@ -39,7 +38,6 @@ export default createReducer(initialState, {
       midiType: MidiTypes.NOTE,
       channel: 1,
       value: 0,
-      oscValue: id,
       styleColor: DefaultColors.STYLE_COLOR,
       labelColor: DefaultColors.TEXT_COLOR
     };
@@ -62,9 +60,7 @@ export default createReducer(initialState, {
       type: ElementTypes.SLIDER,
       midiType: MidiTypes.CC,
       channel: 1,
-      value: 0,
       ccValue: 0,
-      oscValue: id,
       styleColor: DefaultColors.STYLE_COLOR,
       labelColor: DefaultColors.TEXT_COLOR,
       minCcValue: 0,
@@ -143,15 +139,6 @@ export default createReducer(initialState, {
   [HANDLE_EDIT_ELEMENT]: (state, action) => ({
     ...state,
     editedElementId: action.payload
-  }),
-  [SEND_SLIDER_MESSAGE]: (state, action) => ({
-    ...state,
-    elements: state.elements.map(
-      el =>
-        el.id === action.payload.obj
-          ? { ...el, value: action.payload.value }
-          : el
-    )
   }),
   [IMPORT_ELEMENTS_FROM_FILE]: (state, action) => ({
     ...state,

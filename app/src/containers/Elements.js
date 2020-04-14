@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {memo} from 'react';
 import { connect } from 'react-redux';
 import { Rnd } from 'react-rnd';
 import { getEditingMode } from '../store/selectors/boardSelectors';
@@ -12,12 +12,10 @@ const Elements = ({
   toggleStatic,
   updateElementSize,
   updateElementPos,
-  sendBtnMsg,
-  sendSliderMsg,
   currentTab,
   editElement,
   elements,
-  resetPitch
+  socket
 }) =>
   elements.map(
     obj =>
@@ -52,13 +50,11 @@ const Elements = ({
           disableDragging={obj.static || !isEditingMode}
         >
           <Element
+            socket={socket}
             obj={obj}
             isEditingMode={isEditingMode}
-            sendBtnMsg={() => sendBtnMsg(obj)}
-            sendSliderMsg={v => sendSliderMsg(v, obj)}
             editElement={(id) => editElement(id)}
             toggleStatic={() => toggleStatic(obj)}
-            resetPitch={() => resetPitch(obj)}
           />
         </Rnd>
       ) : null
@@ -82,4 +78,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Elements);
+)(memo(Elements));
