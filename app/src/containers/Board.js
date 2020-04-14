@@ -84,7 +84,6 @@ class Board extends Component {
                 <Footer
                     status={this.props.status}
                     midiMsg={this.props.midiMsg}
-                    oscMsg={this.props.oscMsg}
                     loading={this.props.loading}
                 />
             </div>
@@ -105,7 +104,6 @@ const mapStateToProps = state => ({
     currentTab: getCurrentTab(state),
     settings: getSettings(state),
     publicIp: getPublicIp(state),
-    oscMsg: getOscMsg(state),
     midiMsg: getMidiMsg(state),
 });
 
