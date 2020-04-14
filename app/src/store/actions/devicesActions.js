@@ -28,13 +28,6 @@ export function sendMIDIMessage(msg) {
   };
 }
 
-export function sendSliderMessage(value, obj) {
-  return {
-    type: messageActions.SEND_SLIDER_MESSAGE,
-    payload: { value, obj },
-  };
-}
-
 export function sendConnectionStatus(value) {
   return {
     type: messageActions.SEND_STATUS_MESSAGE,

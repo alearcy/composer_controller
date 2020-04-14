@@ -1,5 +1,5 @@
-import React from 'react';
-// import Slider from 'react-rangeslider';
+import React, {memo, useState} from 'react';
+import {useSelector, useDispatch} from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
 import { ElementTypes, MidiTypes } from '../constants/genericConstants';
@@ -7,22 +7,103 @@ import OscButton from './OscButton';
 import Label from './Label';
 import Nouislider from "nouislider-react";
 import "nouislider/distribute/nouislider.css";
+import {sendMIDIMessage, sendOSCMessage} from "../store/actions";
 
 const Element = ({
     obj,
     isEditingMode,
-    sendBtnMsg,
-    sendSliderMsg,
     editElement,
     toggleStatic,
-    resetPitch
+    socket
 }) => {
+
+    const currentTab = useSelector(state => state.tabs.currentTab);
+    const [currentValue, setCurrentValue] = useState(0)
+
+    let dispatch = useDispatch();
+
+    const handleResetPitch = (obj) => {
+        if (obj.midiType === MidiTypes.PITCH) {
+            setCurrentValue(0);
+        }
+    }
+
+    const sendBtnMsg = (obj) => {
+        sendOSC(obj, obj.value);
+        sendMidiFromButtons(obj);
+    }
+
+    const sendMidiFromButtons = (obj) => {
+        const data = {
+            midiType: obj.midiType,
+            channel: obj.channel,
+            value: obj.value,
+        };
+        socket.emit('MIDIBTN', data);
+        sendFormattedMidiButtonMessage(data);
+    }
+
+    const sendFormattedMidiButtonMessage = (data) => {
+        const msg = `Type: ${data.midiType}, Channel: ${data.channel}, value: ${data.value}`;
+        dispatch(sendMIDIMessage(msg));
+    }
+
+    const sendSlideValue = (obj, v) => {
+        const value = Array.isArray(v) ? v[0] : 0
+        setCurrentValue(value);
+        sendOSC(obj, value);
+        sendMidiFromSliders(obj, value);
+    }
+
+    const sendOSC = (obj, value) => {
+        const tabAddress = currentTab.label.replace(/\s+/g, '').toLowerCase();
+        const address = `/${tabAddress}/${obj.oscValue}`;
+        const type = obj.midiType;
+        const data = {
+            type,
+            address,
+            value
+        };
+        socket.emit('osc', data);
+        sendFormattedOscMessage(data);
+    }
+
+    const sendMidiFromSliders = (obj, v) => {
+        const data = {
+            midiType: obj.midiType,
+            channel: obj.channel,
+            ccValue: obj.ccValue,
+            value: obj.midiType === MidiTypes.PITCH ? v : Math.floor(v),
+        };
+        socket.emit('MIDISLIDER', data);
+        sendFormattedMidiSliderMessage(data);
+    }
+
+    const sendFormattedMidiSliderMessage = (data) => {
+        let msg = '';
+        if (data.midiType === MidiTypes.CC || data.type === MidiTypes.NOTE) {
+            msg = `Type: ${data.midiType}, Channel: ${data.channel}, value1: ${data.ccValue}, value2: ${data.value}`;
+        } else {
+            msg = `Type: ${data.midiType}, Channel: ${data.channel}, value: ${Math.floor(data.value * 8191)}`;
+        }
+        dispatch(sendMIDIMessage(msg))
+    }
+
+    const sendFormattedOscMessage = (data) => {
+        let msg = '';
+        if (data.type === MidiTypes.CC || data.type === MidiTypes.NOTE) {
+            msg = `${data.address}, ${Math.floor(data.value)}`;
+        } else {
+            msg = `${data.address}, ${Math.floor(data.value * 8191)}`;
+        }
+        dispatch(sendOSCMessage(msg));
+    }
 
     const elementsMap = {
         [ElementTypes.BTN]: (
             <OscButton
                 obj={obj}
-                onPointerDown={isEditingMode ? null : sendBtnMsg}
+                onPointerDown={isEditingMode ? null : () => sendBtnMsg(obj)}
                 className="button-wrapper"
             />
         ),
@@ -33,7 +114,7 @@ const Element = ({
                     id={obj.id}
                     connect
                     animate={false}
-                    start={obj.value}
+                    start={currentValue}
                     behaviour="drag"
                     range={{
                         min: [obj.midiType === MidiTypes.CC ? obj.minCcValue : obj.minPitchValue],
@@ -43,8 +124,8 @@ const Element = ({
                     step={obj.midiType === MidiTypes.CC ? 1 : 0.001}
                     orientation={obj.orientation}
                     disabled={isEditingMode}
-                    onSlide={sendSliderMsg}
-                    onEnd={resetPitch}
+                    onSlide={(v) => sendSlideValue(obj, v)}
+                    onEnd={() => handleResetPitch(obj)}
                 />
                 <div className='slider-label' style={{ color: obj.labelColor }}>{obj.label}</div>
             </div>
@@ -95,4 +176,4 @@ const Element = ({
     );
 };
 
-export default Element;
+export default memo(Element);

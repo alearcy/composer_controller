@@ -41,10 +41,6 @@ let socket;
 class Board extends Component {
     constructor(props) {
         super(props);
-        this.sendOSC = this.sendOSC.bind(this);
-        this.sendMidiFromButtons = this.sendMidiFromButtons.bind(this);
-        this.sendMidiFromSliders = this.sendMidiFromSliders.bind(this);
-        this.handleResetPitch = this.handleResetPitch.bind(this);
     }
 
     componentDidMount() {
@@ -62,83 +58,6 @@ class Board extends Component {
         socket.on('disconnect', () => {
             this.props.sendConnectionStatus(ConnectionStatus.DISCONNECTED);
         });
-    }
-
-    sendOSC(obj, value) {
-        const tabAddress = this.props.currentTab.label.replace(/\s+/g, '').toLowerCase();
-        const address = `/${tabAddress}/${obj.oscValue}`;
-        const type = obj.midiType;
-        const data = {
-            type,
-            address,
-            value
-        };
-        socket.emit('osc', data);
-        this.sendFormattedOscMessage(data);
-    }
-
-    sendMidiFromButtons(obj) {
-        const data = {
-            midiType: obj.midiType,
-            channel: obj.channel,
-            value: obj.value,
-        };
-        socket.emit('MIDIBTN', data);
-        this.sendFormattedMidiButtonMessage(data);
-    }
-
-    sendMidiFromSliders(obj, v) {
-        this.props.sendSliderMessage(v, obj.id);
-        const data = {
-            midiType: obj.midiType,
-            channel: obj.channel,
-            ccValue: obj.ccValue,
-            value: obj.midiType === MidiTypes.PITCH ? v : Math.floor(v),
-        };
-        socket.emit('MIDISLIDER', data);
-        this.sendFormattedMidiSliderMessage(data);
-    }
-
-    sendBtnMsg(obj) {
-        this.sendOSC(obj, obj.value);
-        this.sendMidiFromButtons(obj);
-    }
-
-    sendSliderMsg(obj, v) {
-        const value = Array.isArray(v) ? v[0] : 0
-        this.sendOSC(obj, value);
-        this.sendMidiFromSliders(obj, value);
-    }
-
-    sendFormattedOscMessage(data) {
-        let msg = '';
-        if (data.type === MidiTypes.CC || data.type === MidiTypes.NOTE) {
-            msg = `${data.address}, ${Math.floor(data.value)}`;
-        } else {
-            msg = `${data.address}, ${Math.floor(data.value * 8191)}`;
-        }
-        this.props.sendOscMessage(msg);
-    }
-
-    sendFormattedMidiSliderMessage(data) {
-        let msg = '';
-        if (data.midiType === MidiTypes.CC || data.type === MidiTypes.NOTE) {
-            msg = `Type: ${data.midiType}, Channel: ${data.channel}, value1: ${data.ccValue}, value2: ${data.value}`;
-        } else {
-            msg = `Type: ${data.midiType}, Channel: ${data.channel}, value: ${Math.floor(data.value * 8191)}`;
-        }
-        this.props.sendMidiMessage(msg);
-    }
-
-    sendFormattedMidiButtonMessage(data) {
-        const msg = `Type: ${data.midiType}, Channel: ${data.channel}, value: ${data.value}`;
-        this.props.sendMidiMessage(msg);
-    }
-
-    handleResetPitch(obj) {
-        if (obj.midiType === MidiTypes.PITCH) {
-            this.sendSliderMsg(obj, 0)
-        }
     }
 
     render() {
@@ -159,9 +78,7 @@ class Board extends Component {
                 <Tabs />
                 <div className={boardWrapper} data-tid="container">
                     <Elements
-                        sendBtnMsg={(obj) => this.sendBtnMsg(obj)}
-                        sendSliderMsg={(v, obj) => this.sendSliderMsg(obj, v)}
-                        resetPitch={(obj) => this.handleResetPitch(obj)}
+                        socket={socket}
                     />
                 </div>
                 <Footer
@@ -198,9 +115,6 @@ const mapDispatchToProps = dispatch => ({
     sendMidiOutDevice: devices => dispatch(devicesActions.sendMidiOutDevice(devices)),
     sendMidiInDevice: devices => dispatch(devicesActions.sendMidiInDevice(devices)),
     sendConnectionStatus: status => dispatch(devicesActions.sendConnectionStatus(status)),
-    sendSliderMessage: (value, id) => dispatch(devicesActions.sendSliderMessage(value, id)),
-    sendOscMessage: value => dispatch(devicesActions.sendOSCMessage(value)),
-    sendMidiMessage: value => dispatch(devicesActions.sendMIDIMessage(value)),
     initBoard: () => dispatch(boardActions.initBoard()),
     importFromBkp: objs => dispatch(boardActions.importFromBkp(objs)),
     setPublicIp: ip => dispatch(boardActions.setPublicIp(ip))
