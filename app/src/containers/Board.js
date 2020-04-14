@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faLock, faLockOpen, faPen, faEllipsisH, faExpand, faCogs } from '@fortawesome/free-solid-svg-icons';
 import classNames from 'classnames';
-import { DrawerForms, ConnectionStatus, MidiTypes } from '../constants/genericConstants';
+import { DrawerForms, ConnectionStatus } from '../constants/genericConstants';
 import Drawer from '../components/Drawer';
 import Header from './Header';
 import Footer from '../components/Footer';
@@ -13,7 +13,6 @@ import * as elementActions from '../store/actions/elementsAction';
 import {
     getStatus,
     getMidiMsg,
-    getOscMsg,
 } from '../store/selectors/devicesSelectors';
 import {
     getEditingMode,
