@@ -7,7 +7,7 @@ import OscButton from './OscButton';
 import Label from './Label';
 import Nouislider from "nouislider-react";
 import "nouislider/distribute/nouislider.css";
-import {sendMIDIMessage, sendOSCMessage} from "../store/actions";
+import {sendMIDIMessage} from "../store/actions";
 
 const Element = ({
     obj,
@@ -96,7 +96,6 @@ const Element = ({
         } else {
             msg = `${data.address}, ${Math.floor(data.value * 8191)}`;
         }
-        dispatch(sendOSCMessage(msg));
     }
 
     const elementsMap = {

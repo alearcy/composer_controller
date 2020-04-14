@@ -38,7 +38,6 @@ export default createReducer(initialState, {
       midiType: MidiTypes.NOTE,
       channel: 1,
       value: 0,
-      oscValue: id,
       styleColor: DefaultColors.STYLE_COLOR,
       labelColor: DefaultColors.TEXT_COLOR
     };
@@ -62,7 +61,6 @@ export default createReducer(initialState, {
       midiType: MidiTypes.CC,
       channel: 1,
       ccValue: 0,
-      oscValue: id,
       styleColor: DefaultColors.STYLE_COLOR,
       labelColor: DefaultColors.TEXT_COLOR,
       minCcValue: 0,

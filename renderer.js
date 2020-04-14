@@ -10,7 +10,6 @@ const adapter = new FileSync(electronApp.getPath('appData') + '/ControllerCompos
 const db = low(adapter);
 const cors = require('cors');
 const  fs = require('fs');
-const OSC = require('osc-js');
 const os = require('os');
 
 const port = 9000;
@@ -31,18 +30,13 @@ db.defaults(
         options: {
             elements: [],
             tabs    : [],
-            settings: {
-                oscInPort: 9003,
-                oscOutPort: 9002
-            }
+            settings: {}
         }
     })
     .write();
 
 let midiInputDevice = db.get('options.settings.midiInDevice').value() || undefined;
 let midiOutputDevice = db.get('options.settings.midiOutDevice').value() || undefined;
-let oscOutPort = db.get('options.settings.oscOutPort').value();
-let oscInPort = db.get('options.settings.oscInPort').value();
 
 // GET /posts/:id
 app.get('/db', (req, res) => {
@@ -59,15 +53,11 @@ app.post('/db', (req, res) => {
 const server = app.listen(port, "0.0.0.0");
 const io = require('socket.io')(server);
 
-const osc = new OSC({ plugin: new OSC.DatagramPlugin() });
-osc.open();
-
 io.sockets.on('connection', (socket) => {
     // prevent messages on every client connection
     counter ++;
     if (counter === 1) {
         checkIpAddress();
-        io.sockets.emit('MESSAGE', `OSC input: ${oscInPort}, OSC output: ${oscOutPort}`);
     }
 
     if (midiInputDevice !== undefined) {
@@ -76,10 +66,6 @@ io.sockets.on('connection', (socket) => {
     if (midiOutputDevice !== undefined) {
         io.sockets.emit('midiOutputDevice', midiOutputDevice);
     }
-
-    socket.on('osc', (msg) => {
-        osc.send(new OSC.Message(msg.address, msg.value), { port: oscOutPort })
-    });
 
     socket.on('MIDIBTN', (msg) => {
         if (midiOutputDevice !== undefined) {

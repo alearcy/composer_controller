@@ -72,14 +72,6 @@ const basicSliderForm = (props) => {
                  onChange={handleChange}
                  onBlur={handleBlur}/>
         </div>
-        <div>
-          <label>OSC value:</label>
-          <input name="oscValue"
-                 type="text"
-                 value={values.oscValue}
-                 onChange={handleChange}
-                 onBlur={handleBlur}/>
-        </div>
         {values.midiType === MidiTypes.CC &&
         <div>
           <div>

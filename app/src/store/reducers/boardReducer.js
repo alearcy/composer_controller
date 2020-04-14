@@ -27,8 +27,6 @@ const initialState = {
     settings        : {
         midiInDevice : '',
         midiOutDevice: '',
-        oscInPort    : 9003,
-        oscOutPort   : 9002
     }
 };
 

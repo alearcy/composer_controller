@@ -12,17 +12,14 @@ const Elements = ({
   toggleStatic,
   updateElementSize,
   updateElementPos,
-  sendBtnMsg,
-  sendSliderMsg,
   currentTab,
   editElement,
   elements,
-  resetPitch,
   socket
 }) =>
   elements.map(
     obj =>
-      {console.log("refresh", obj.id, obj.value); return obj.tab.id === currentTab.id ? (
+      obj.tab.id === currentTab.id ? (
         <Rnd
           key={obj.id}
           size={{ width: obj.w, height: obj.h }}
@@ -56,12 +53,11 @@ const Elements = ({
             socket={socket}
             obj={obj}
             isEditingMode={isEditingMode}
-            // sendBtnMsg={() => sendBtnMsg(obj)}
             editElement={(id) => editElement(id)}
             toggleStatic={() => toggleStatic(obj)}
           />
         </Rnd>
-      ) : null}
+      ) : null
   );
 
 const mapStateToProps = state => ({
