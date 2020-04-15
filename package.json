@@ -5,9 +5,8 @@
   "main": "main.js",
   "scripts": {
     "start": "electron . & cd app && npm run start",
-    "dist": "cd app && npm run build && cd .. && electron-builder",
-    "release": "cd app && npm run build && cd .. && build",
-    "postinstall": "electron-builder install-app-deps"
+    "dist": "cd app && npm run build && cd .. && electron-builder --publish never",
+    "release": "cd app && npm run build && cd .. && electron-builder"
   },
   "repository": {
     "type": "git",
@@ -25,7 +24,7 @@
   "license": "MIT",
   "devDependencies": {
     "electron": "^4.2.12",
-    "electron-builder": "^20.44.4"
+    "electron-builder": "^22.4.1"
   },
   "dependencies": {
     "cors": "^2.8.5",
