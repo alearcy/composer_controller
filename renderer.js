@@ -35,7 +35,6 @@ db.defaults(
     })
     .write();
 
-let midiInputDevice = db.get('options.settings.midiInDevice').value() || undefined;
 let midiOutputDevice = db.get('options.settings.midiOutDevice').value() || undefined;
 
 // GET /posts/:id
@@ -60,9 +59,6 @@ io.sockets.on('connection', (socket) => {
         checkIpAddress();
     }
 
-    if (midiInputDevice !== undefined) {
-        io.sockets.emit('midiInputDevice', midiInputDevice);
-    }
     if (midiOutputDevice !== undefined) {
         io.sockets.emit('midiOutputDevice', midiOutputDevice);
     }
@@ -100,12 +96,6 @@ io.sockets.on('connection', (socket) => {
         } else {
             io.sockets.emit('ERROR_MESSAGE', 'ERROR: Please, set a MIDI device first');
         }
-    });
-
-    socket.on('setMidiInputDevice', (msg) => {
-        db.set('options.settings.midiInDevice', msg).write();
-        midiInputDevice = db.get('options.settings.midiInDevice').value();
-
     });
 
     socket.on('setMidiOutputDevice', (msg) => {

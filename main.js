@@ -11,12 +11,12 @@ let mainWindow;
 function createWindow () {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: 600,
-    height: 400,
-    minHeight: 400,
-    minWidth: 600,
-    maxHeight: 400,
-    maxWidth: 600,
+    width: 400,
+    height: 480,
+    minWidth: 400,
+    minHeight: 480,
+    maxWidth: 400,
+    maxHeight: 480,
     webPreferences: {
       nodeIntegration: true
     },

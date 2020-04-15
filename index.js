@@ -33,21 +33,12 @@ ipcRenderer.on('updateReady', function(event, text) {
 WebMidi.enable((err) => {
     if (err) {
         $('#errors').append(err);
-        console.error(err);
     }
     midiOutDevices = WebMidi.outputs;
-    midiInDevices = WebMidi.inputs;
-    midiInDevices.forEach((i) => {
-        $('#midiInputDevices').append(new Option(i.name, i.name))
-    });
 
-    midiInDevices.forEach((o) => {
+    midiOutDevices.forEach((o) => {
         $('#midiOutputDevices').append(new Option(o.name, o.name))
     });
-});
-
-$('#midiInputDevices').change(e => {
-    socket.emit('setMidiInputDevice', e.target.value);
 });
 
 $('#midiOutputDevices').change(e => {
@@ -62,10 +53,6 @@ $('#exportBackup').on("click", (e) => {
 $('#importBackup').on("click", (e) => {
     e.preventDefault();
     socket.emit('importBackup');
-});
-
-socket.on('midiInputDevice', (data) => {
-    $("#midiInputDevices").val(data);
 });
 
 socket.on('midiOutputDevice', (data) => {
