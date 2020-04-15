@@ -96,6 +96,7 @@ button {
     background: transparent;
     font-size: 0.8em;
     transition: all 150ms ease-in-out;
+    outline: none;
 }
 
 button.danger {
@@ -172,4 +173,15 @@ input {
 .start-message {
     color: #00ab6b;
     line-height: 1.5;
+}
+
+#messages {
+    display: flex;
+    align-items: center;
+}
+
+#messages a {
+    cursor: pointer;
+    color: white;
+    margin-left: 10px;
 }

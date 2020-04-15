@@ -1,7 +1,7 @@
 const WebMidi = require('webmidi');
 const io = require('socket.io-client');
 const socket = io('http://localhost:9000');
-const { ipcRenderer } = require('electron');
+const { ipcRenderer, shell } = require('electron');
 
 let midiInDevices = [];
 let midiOutDevices = [];
@@ -26,8 +26,16 @@ ipcRenderer.on('updateReady', function(event, text) {
     let link = document.createElement('a');
     message.innerHTML = text;
     link.href = "https://github.com/alearcy/composer_controller/releases";
-    link.innerHTML = "Click here."
+    link.id = "updateLink";
+    link.innerHTML = "Click here"
     container.appendChild(message);
+    container.appendChild(link);
+});
+
+//open links externally by default
+$("#updateLink").on('click', function(event) {
+    event.preventDefault();
+    shell.openExternal(this.href);
 });
 
 WebMidi.enable((err) => {
