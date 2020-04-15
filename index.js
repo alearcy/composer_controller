@@ -13,13 +13,22 @@ ipcRenderer.on('version', (event, text) => {
 });
 
 // AUTO UPDATE IPC MESSAGES
+ipcRenderer.on('autoUpdate', function(event, text) {
+    let container = document.getElementById('messages');
+    let message = document.createElement('div');
+    message.innerHTML = text;
+    container.appendChild(message);
+});
 
-// ipcRenderer.on('message', function(event, text) {
-//     let container = document.getElementById('messages');
-//     let message = document.createElement('div');
-//     message.innerHTML = text;
-//     container.appendChild(message);
-// });
+ipcRenderer.on('updateReady', function(event, text) {
+    let container = document.getElementById('messages');
+    let message = document.createElement('div');
+    let link = document.createElement('a');
+    message.innerHTML = text;
+    link.href = "https://github.com/alearcy/composer_controller/releases";
+    link.innerHTML = "Click here."
+    container.appendChild(message);
+});
 
 WebMidi.enable((err) => {
     if (err) {

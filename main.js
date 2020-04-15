@@ -1,5 +1,7 @@
 // Modules to control application life and create native browser window
 const {app, BrowserWindow} = require('electron');
+
+// Autoupdate from electron-builder library that automatically get from Github
 const { autoUpdater } = require("electron-updater");
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -60,42 +62,26 @@ app.on('activate', function () {
   if (mainWindow === null) createWindow()
 });
 
-// function sendStatusToWindow(text) {
-//   mainWindow.webContents.send('message', text);
-// }
+function sendUpdateStatus(text) {
+  mainWindow.webContents.send('autoUpdate', text);
+}
+
+function sendUpdateReady(text) {
+  mainWindow.webContents.send('updateReady', text);
+}
 
 app.on('ready', () => {
-  // autoUpdater.checkForUpdatesAndNotify();
-  console.log(autoUpdater);
+  autoUpdater.checkForUpdatesAndNotify();
 });
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
-// autoUpdater.on('checking-for-update', () => {
-//   sendStatusToWindow('Checking for update...');
-// });
-// autoUpdater.on('update-available', (info) => {
-//   sendStatusToWindow('Update available.');
-// });
-// autoUpdater.on('update-not-available', (info) => {
-//   sendStatusToWindow('Update not available.');
-// });
-// autoUpdater.on('error', (err) => {
-//   sendStatusToWindow('Error in auto-updater. ' + err);
-// });
-// autoUpdater.on('download-progress', (progressObj) => {
-//   let log_message = "Download speed: " + progressObj.bytesPerSecond;
-//   log_message = log_message + ' - Downloaded ' + progressObj.percent + '%';
-//   log_message = log_message + ' (' + progressObj.transferred + "/" + progressObj.total + ')';
-//   sendStatusToWindow(log_message);
-// });
-//
-// autoUpdater.on('download-progress', (progressObj) => {
-//
-//   mainWindow.webContents.send('download-progress', progressObj.percent)
-//
-// });
-//
-// autoUpdater.on('update-downloaded', (info) => {
-//   autoUpdater.quitAndInstall();
-// });
+autoUpdater.on('checking-for-update', () => {
+  sendUpdateStatus('Checking for update...');
+});
+autoUpdater.on('update-available', (info) => {
+  sendUpdateReady(`Version ${info.version} available.`);
+});
+autoUpdater.on('update-not-available', (info) => {
+  sendUpdateStatus('All up to date');
+});
