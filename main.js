@@ -4,6 +4,10 @@ const {app, BrowserWindow} = require('electron');
 // Autoupdate from electron-builder library that automatically get from Github
 const { autoUpdater } = require("electron-updater");
 
+// Autoupdate config
+autoUpdater.autoDownload = false;
+autoUpdater.allowPrerelease = false;
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
