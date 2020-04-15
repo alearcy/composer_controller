@@ -1,7 +1,7 @@
 {
   "name": "composer_controller",
   "version": "1.1.0",
-  "description": "OSC and MIDI controller by composer for composers",
+  "description": "MIDI controller by composer for composers",
   "main": "main.js",
   "scripts": {
     "start": "electron . & cd app && npm run start",
@@ -14,7 +14,6 @@
     "url": "git@github.com:alearcy/composer_controller.git"
   },
   "keywords": [
-    "OSC",
     "MIDI",
     "controller",
     "remote controller",
