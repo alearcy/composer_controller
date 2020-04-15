@@ -3,3 +3,4 @@ node_modules
 options.json
 dist
 .DS_Store
+_dist
