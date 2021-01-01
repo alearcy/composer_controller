@@ -24,7 +24,8 @@
   "license": "MIT",
   "devDependencies": {
     "electron": "^4.2.12",
-    "electron-builder": "^22.4.1"
+    "electron-builder": "^22.4.1",
+    "node-sass": "^5.0.0"
   },
   "dependencies": {
     "cors": "^2.8.5",
