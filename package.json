@@ -34,7 +34,7 @@
     "lowdb": "^1.0.0",
     "socket.io": "^2.3.0",
     "webmidi": "^2.5.1",
-    "ws": "^6.2.1"
+    "ws": "^7.4.6"
   },
   "build": {
     "appId": "com.alessandroarcidiaco.${name}",
