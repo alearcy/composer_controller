@@ -55,21 +55,13 @@ section#ip {
     width: 100%;
 }
 
-header {
-    height: 80px;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 main {
-    height: calc(100% - 120px);
-    padding: 0 10px 10px 10px;
+    /*height: calc(100% - 120px);*/
+    padding: 10px;
 }
 
 footer {
-    height: 40px;
+    /*height: 40px;*/
     width: 100%;
     color: white;
     font-size: .75em;

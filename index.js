@@ -3,7 +3,7 @@ const io = require('socket.io-client');
 const socket = io('http://localhost:9000');
 const { ipcRenderer, shell } = require('electron');
 
-let midiInDevices = [];
+
 let midiOutDevices = [];
 const select = selector => document.querySelector(selector);
 let version = select('#version');
