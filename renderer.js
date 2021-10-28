@@ -155,7 +155,9 @@ io.sockets.on('connection', (socket) => {
 
 function checkIpAddress() {
     const connections = os.networkInterfaces();
-    connections.en0.forEach(conn => {
+    console.log("connections", connections);
+    const lanConnections = process.platform === "win32" ? connections.Ethernet : connections.en0;
+    lanConnections.forEach(conn => {
         if (conn.family === 'IPv4') {
             ip = conn.address + ':' + port;
             io.sockets.emit('START_MESSAGE', `Ready! Open your browser and go to ${ip}`);
