@@ -4,15 +4,10 @@
         <meta charset="UTF-8">
         <title>Composer Controller</title>
         <link rel="stylesheet" href="./index.css">
-        <script>if (typeof module === 'object') {
-            window.module = module;
-            module = undefined;
-        }</script>
         <script
                 src="https://code.jquery.com/jquery-3.3.1.min.js"
                 integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
                 crossorigin="anonymous"></script>
-        <script>if (window.module) module = window.module;</script>
     </head>
     <body>
     <header>
@@ -34,17 +29,6 @@
             <button class="button neutral" id="importBackup">Import</button>
         </div>
     </main>
-    <footer>
-        <div class="version">
-            <span>Current version: </span><span id="version"></span>
-        </div>
-        <div class="update">
-            <div id="messages" style="color:white"></div>
-        </div>
-    </footer>
-    <script>
-        require('./renderer.js');
-        require('./index.js');
-    </script>
+    <script src="./renderer.js"></script>
     </body>
 </html>

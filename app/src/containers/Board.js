@@ -43,8 +43,10 @@ class Board extends Component {
     }
 
     componentDidMount() {
+        console.log("entro nel component did mount");
         this.props.sendConnectionStatus(ConnectionStatus.CONNECTING);
         const localIp = process.env.NODE_ENV === 'production' ? window.location.href : 'localhost:9000';
+        console.log("localIp: ", localIp);
         socket = io(localIp);
         this.props.setPublicIp(localIp);
         this.props.initBoard();
