@@ -6,10 +6,3 @@ contextBridge.exposeInMainWorld("ipcRenderer", {
   on: (channel, callback) =>
     ipcRenderer.on(channel, (event, ...args) => callback(...args)),
 });
-
-// contextBridge.exposeInMainWorld("webMidi", {
-//   enable: (callback) => WebMidi.enable((e) => {
-//     if (e) { callback(e)}
-//   }),
-//   outputs: () => WebMidi.outputs,
-// });

@@ -1,13 +1,9 @@
 {
   "options": {
     "elements": [],
-    "tabs": [
-      {
-        "id": "w6hvq9hlx",
-        "label": "My board",
-        "type": "TAB"
-      }
-    ],
-    "settings": {}
+    "tabs": [],
+    "settings": {
+      "midiOutDevice": "arcy-pc"
+    }
   }
 }

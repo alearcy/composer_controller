@@ -1,11 +1,8 @@
 let midiOutDevices = [];
 
-console.log("renderer started");
-
-ipcRenderer.on("midiOutputDevice", (data) => {
-  console.log("entro", data);
-  data.forEach((o) => {
-    $("#midiOutputDevices").append(new Option(o.name, o.name));
+ipcRenderer.on("midiOutputDevices", (data) => {
+  data.forEach((midiName) => {
+    $("#midiOutputDevices").append(new Option(midiName, midiName));
   });
 });
 
@@ -16,7 +13,6 @@ $("#midiOutputDevices").change((e) => {
 $("#exportBackup").on("click", (e) => {
   e.preventDefault();
   ipcRenderer.send("exportBackup");
-  console.log("export pressed");
 });
 
 $("#importBackup").on("click", (e) => {
