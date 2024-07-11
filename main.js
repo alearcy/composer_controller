@@ -48,8 +48,10 @@ const createWindow = () => {
       contextIsolation: true,
       preload: path.join(__dirname, "preload.js"),
     },
-    icon: __dirname + "/public/icon/icon.png",
+    icon: __dirname + "/public/icon.png",
   });
+
+  mainWindow.menuBarVisible = false;
 
   // and load the index.html of the app.
   mainWindow.loadFile(__dirname + '/index.html');
