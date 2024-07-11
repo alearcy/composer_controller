@@ -52,33 +52,9 @@
           }
         },
         {
-          "name": "@electron-forge/maker-zip",
-          "platforms": [
-            "darwin"
-          ]
+          "name": "@electron-forge/maker-zip"
         }
       ]
     }
-  },
-  "build": {
-    "appId": "com.alessandroarcidiaco.${name}",
-    "productName": "Composer Controller",
-    "directories": {
-      "buildResources": "public",
-      "app": "."
-    },
-    "mac": {
-      "category": "public.app-category.music",
-      "target": [
-        "dmg",
-        "zip"
-      ]
-    },
-    "win": {
-      "icon": "public/icon.ico"
-    },
-    "publish": [
-      "github"
-    ]
   }
 }
