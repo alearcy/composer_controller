@@ -4,3 +4,4 @@ options.json
 dist
 .DS_Store
 _dist
+out

@@ -1,6 +1,5 @@
 // Modules to control application life and create native browser window
-import electron, { app, BrowserWindow, ipcMain, dialog } from "electron";
-const remote = electron.remote;
+import { app, BrowserWindow, ipcMain, dialog } from "electron";
 // EXPRESS IMPORTS
 import express from "express";
 import path from "path";
@@ -12,7 +11,7 @@ import cors from "cors";
 import fs from "fs";
 import os from "os";
 import { fileURLToPath } from "url";
-import http, { createServer } from 'http';
+import http from 'http';
 
 const dbDefaults ={
   options: {
@@ -73,6 +72,7 @@ const createWindow = () => {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
+//if (require("electron-squirrel-startup")) app.quit();
 app.whenReady().then(() => {
   createWindow();
 

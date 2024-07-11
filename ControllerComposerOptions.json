@@ -1,16 +1,8 @@
 {
   "options": {
     "elements": [],
-    "tabs": [
-      {
-        "id": "6q645xg9r",
-        "label": "Reaper",
-        "type": "TAB"
-      }
-    ],
-    "settings": {
-      "midiOutDevice": "arcy-pc"
-    }
+    "tabs": [],
+    "settings": {}
   },
-  "time": "2024-07-11T19:57:46.350Z"
+  "time": null
 }

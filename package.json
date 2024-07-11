@@ -5,10 +5,10 @@
   "type": "module",
   "main": "main.js",
   "scripts": {
-    "start": "electron .",
-    "start-react": "cd app && npm run start",
-    "dist": "cd app && npm run build && cd .. && electron-builder --publish never",
-    "release": "cd app && npm run build && cd .. && electron-builder"
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make",
+    "publish": "electron-forge publish"
   },
   "repository": {
     "type": "git",
@@ -25,8 +25,11 @@
   "author": "Alessandro Arcidiaco",
   "license": "MIT",
   "devDependencies": {
+    "@electron-forge/cli": "^7.4.0",
+    "@electron-forge/maker-deb": "^7.4.0",
+    "@electron-forge/maker-squirrel": "^7.4.0",
+    "@electron-forge/maker-zip": "^7.4.0",
     "electron": "^30.0.2",
-    "electron-builder": "^24.13.3",
     "node-sass": "^9.0.0"
   },
   "dependencies": {
@@ -37,6 +40,25 @@
     "socket.io": "^4.7.5",
     "webmidi": "^3.1.9",
     "ws": "^8.17.0"
+  },
+  "config": {
+    "forge": {
+      "packagerConfig": {},
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "name": "electron_quick_start"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "darwin"
+          ]
+        }
+      ]
+    }
   },
   "build": {
     "appId": "com.alessandroarcidiaco.${name}",

@@ -63,16 +63,22 @@ So, remember to export a backup file from the server app.
 
 Run `npm install` in both root and `/app` folder.
 
-For serve locally in dev mode run:
+For serve electron app from the root folder run:
+
+`npm run start`
+
+For serve frontend locally in dev mode go to /app folder and run:
 
 `npm run start`
 
 For build a dist package run:
 
-`npm run dist`
+`npm run package`
+
+And out folder will be created. Inside the out folder will be the folder with the .exe and all others files.
 
 ### For the repository owner only:
 
-Build and release new version with `npm version patch|minor|major` first and then `npm run release`.
+Build and release new version with `npm version patch|minor|major` first and then `npm run package`.
 
 This software is under [MIT License](LICENSE.md).
