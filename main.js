@@ -12,7 +12,7 @@ import cors from "cors";
 import fs from "fs";
 import os from "os";
 import { fileURLToPath } from "url";
-import http from 'http';
+import http, { createServer } from 'http';
 
 const dbDefaults ={
   options: {
@@ -57,6 +57,9 @@ const createWindow = () => {
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools();
+  mainWindow.webContents.on("dom-ready", () => {
+    startExpressServer();
+  });
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
@@ -70,8 +73,30 @@ const createWindow = () => {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', () => {
+app.whenReady().then(() => {
   createWindow();
+
+  app.on("activate", () => {
+    if (BrowserWindow.getAllWindows().length === 0) {
+      createWindow();
+    }
+  });
+}).catch(err => console.error(err));
+
+// Quit when all windows are closed.
+app.on('window-all-closed', function () {
+  // On macOS it is common for applications and their menu bar
+  // to stay active until the user quits explicitly with Cmd + Q
+  if (process.platform !== 'darwin') app.quit()
+});
+
+app.on('activate', function () {
+  // On macOS it's common to re-create a window in the app when the
+  // dock icon is clicked and there are no other windows open.
+  if (mainWindow === null) createWindow()
+});
+
+const startExpressServer = () => {
   // EXPRESSSSSS
   const expressApp = express();
   const port = 9000;
@@ -86,7 +111,6 @@ app.on('ready', () => {
   expressApp.get("/", function (_, res) {
     res.sendFile(path.join(__dirname, "app", "build", "index.html"));
   });
-
 
   let midiOutputDevice;
 
@@ -106,10 +130,7 @@ app.on('ready', () => {
         devices.push(device.name);
       });
 
-      setTimeout(() => {
-        mainWindow.webContents.send("midiOutputDevices", devices);
-      }, 3000)
-      
+      mainWindow.webContents.send("midiOutputDevices", devices);
     }
   }
 
@@ -128,8 +149,20 @@ app.on('ready', () => {
 
   const server = http.createServer(expressApp);
 
+  const checkIpAddress = () => {
+    const connections = os.networkInterfaces();
+    connections.Ethernet.forEach((conn) => {
+      if (conn.family === "IPv4") {
+        ip = conn.address + ":" + port;
+        mainWindow.webContents.send(
+          "START_MESSAGE",
+          `Ready! Open your browser and go to ${ip}`
+        );
+      }
+    });
+  };
+
   server.listen(port, () => {
-    console.log("listening on *:", port);
     checkIpAddress();
   });
 
@@ -196,41 +229,44 @@ app.on('ready', () => {
   });
 
   ipcMain.on("exportBackup", () => {
-    dialog.showSaveDialog(
-      {
+    dialog
+      .showSaveDialog({
         filters: [{ name: "", extensions: ["json"] }],
-      },
-      
-    ).then(file => {
-      if (file === undefined) {
-        mainWindow.webContents.send(
-          "ERROR_MESSAGE",
-          "ERROR: An error occurred exporting backup file: undefined"
-        );
-        return;
-      }
-      const elements = db.data.options.elements;
-      const tabs = db.data.options.tabs;
-      const settings = db.data.options.settings;
-      const timeStamp = db.data.time = new Date();
-      const content = JSON.stringify({ elements, tabs, settings, timeStamp });
-      const {filePath} = file;
-      fs.writeFile(filePath, content, (err) => {
-        if (err) {
+      })
+      .then((file) => {
+        if (file === undefined) {
           mainWindow.webContents.send(
             "ERROR_MESSAGE",
-            "ERROR: An error writing file: " + err
+            "ERROR: An error occurred exporting backup file: undefined"
           );
           return;
         }
-        mainWindow.webContents.send("MESSAGE", "Backup successfully exported");
+        const elements = db.data.options.elements;
+        const tabs = db.data.options.tabs;
+        const settings = db.data.options.settings;
+        const timeStamp = (db.data.time = new Date());
+        const content = JSON.stringify({ elements, tabs, settings, timeStamp });
+        const { filePath } = file;
+        fs.writeFile(filePath, content, (err) => {
+          if (err) {
+            mainWindow.webContents.send(
+              "ERROR_MESSAGE",
+              "ERROR: An error writing file: " + err
+            );
+            return;
+          }
+          mainWindow.webContents.send(
+            "MESSAGE",
+            "Backup successfully exported"
+          );
+        });
+      })
+      .catch((err) => {
+        mainWindow.webContents.send(
+          "ERROR_MESSAGE",
+          "ERROR: An error occurred exporting backup file: " + err
+        );
       });
-    }).catch(err => {
-      mainWindow.webContents.send(
-        "ERROR_MESSAGE",
-        "ERROR: An error occurred exporting backup file: " + err
-      );
-    });
   });
 
   ipcMain.on("importBackup", () => {
@@ -241,7 +277,6 @@ app.on('ready', () => {
       })
       .then((file) => {
         fs.readFile(file.filePaths[0], (err, data) => {
-          console.log(data);
           if (err) {
             mainWindow.webContents.send(
               "ERROR_MESSAGE",
@@ -253,42 +288,14 @@ app.on('ready', () => {
           db.data.options.tabs = objs.tabs;
           db.data.options.elements = objs.elements;
           db.write();
-          mainWindow.webContents.send(
-            "MESSAGE",
-            "Backup successfully loaded"
-          );
-        })
-      }).catch(err => {
+          mainWindow.webContents.send("MESSAGE", "Backup successfully loaded");
+        });
+      })
+      .catch((err) => {
         mainWindow.webContents.send(
           "ERROR_MESSAGE",
           "ERROR: An error occurred importing backup file: " + err
         );
-      })
+      });
   });
-
-  const checkIpAddress = () => {
-    const connections = os.networkInterfaces();
-    connections.Ethernet.forEach((conn) => {
-      if (conn.family === "IPv4") {
-        ip = conn.address + ":" + port;
-        mainWindow.webContents.send(
-          "START_MESSAGE",
-          `Ready! Open your browser and go to ${ip}`
-        );
-      }
-    });
-  };
-});
-
-// Quit when all windows are closed.
-app.on('window-all-closed', function () {
-  // On macOS it is common for applications and their menu bar
-  // to stay active until the user quits explicitly with Cmd + Q
-  if (process.platform !== 'darwin') app.quit()
-});
-
-app.on('activate', function () {
-  // On macOS it's common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
-  if (mainWindow === null) createWindow()
-});
+}
