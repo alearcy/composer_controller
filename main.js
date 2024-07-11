@@ -20,6 +20,7 @@ const dbDefaults ={
     tabs: [],
     settings: {},
   },
+  time: null
 };
 
 const db = new LowSync(
@@ -105,10 +106,8 @@ app.on('ready', () => {
         devices.push(device.name);
       });
 
-      //FIXME
       setTimeout(() => {
         mainWindow.webContents.send("midiOutputDevices", devices);
-        mainWindow.webContents.send("START_MESSAGE", "ciao");
       }, 3000)
       
     }
@@ -203,16 +202,18 @@ app.on('ready', () => {
       },
       
     ).then(file => {
-      console.log("file", file);
       if (file === undefined) {
-        console.log("file undefined");
+        mainWindow.webContents.send(
+          "ERROR_MESSAGE",
+          "ERROR: An error occurred exporting backup file: undefined"
+        );
         return;
       }
       const elements = db.data.options.elements;
       const tabs = db.data.options.tabs;
       const settings = db.data.options.settings;
-      const content = JSON.stringify({ elements, tabs, settings });
-      console.log("content", content);
+      const timeStamp = db.data.time = new Date();
+      const content = JSON.stringify({ elements, tabs, settings, timeStamp });
       const {filePath} = file;
       fs.writeFile(filePath, content, (err) => {
         if (err) {
@@ -233,33 +234,36 @@ app.on('ready', () => {
   });
 
   ipcMain.on("importBackup", () => {
-    dialog.showOpenDialog(
-      {
+    dialog
+      .showOpenDialog({
+        properties: ["openFile"],
         filters: [{ name: "", extensions: ["json"] }],
-      },
-      (file) => {
-        if (file === undefined) {
-          console.log("file undefined");
-          return;
-        }
-        fs.readFile(file[0], (err, data) => {
+      })
+      .then((file) => {
+        fs.readFile(file.filePaths[0], (err, data) => {
+          console.log(data);
           if (err) {
             mainWindow.webContents.send(
               "ERROR_MESSAGE",
               "ERROR: An error occurred importing backup file"
             );
-            return;
           }
           const objs = JSON.parse(data);
           db.data.options.settings = objs.settings;
           db.data.options.tabs = objs.tabs;
           db.data.options.elements = objs.elements;
           db.write();
-          mainWindow.webContents.send("importBackupDone");
-          mainWindow.webContents.send("MESSAGE", "Backup successfully loaded");
-        });
-      }
-    );
+          mainWindow.webContents.send(
+            "MESSAGE",
+            "Backup successfully loaded"
+          );
+        })
+      }).catch(err => {
+        mainWindow.webContents.send(
+          "ERROR_MESSAGE",
+          "ERROR: An error occurred importing backup file: " + err
+        );
+      })
   });
 
   const checkIpAddress = () => {
