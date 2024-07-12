@@ -38,13 +38,11 @@ function* saveLayoutSaga() {
     const settingsStore = yield select(getSettings);
     const publicIp = yield select(getPublicIp);
     const ip = process.env.NODE_ENV !== 'production' ? 'http://' + publicIp : '';
-    console.log("ip: ", ip);
-    const result = axios.post(ip + '/db', {
+    axios.post(ip + '/db', {
       elements: elementsStore,
       tabs: tabsStore,
       settings: settingsStore
     });
-    result.then((data) => console.log("result: ", data));
   } catch (e) {
     console.error('Error saving layout', e);
   }
