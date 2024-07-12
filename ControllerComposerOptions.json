@@ -1,7 +1,13 @@
 {
   "options": {
     "elements": [],
-    "tabs": [],
+    "tabs": [
+      {
+        "id": "o5w4oqwmo",
+        "label": "My board",
+        "type": "TAB"
+      }
+    ],
     "settings": {}
   },
   "time": null
