@@ -5,3 +5,4 @@ dist
 .DS_Store
 _dist
 out
+db.json

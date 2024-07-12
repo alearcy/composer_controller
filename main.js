@@ -6,7 +6,7 @@ import path from "path";
 import { WebMidi } from "webmidi";
 import { Server } from "socket.io";
 import { LowSync } from "lowdb";
-import { JSONFileSync } from "lowdb/node";
+import { JSONFilePreset } from "lowdb/node";
 import cors from "cors";
 import fs from "fs";
 import os from "os";
@@ -22,11 +22,8 @@ const dbDefaults ={
   time: null
 };
 
-const db = new LowSync(
-  new JSONFileSync("ControllerComposerOptions.json"),
-  dbDefaults
-);
-db.write();
+const db = await JSONFilePreset("db.json", dbDefaults);
+await db.write();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -136,17 +133,17 @@ const startExpressServer = () => {
     }
   }
 
-  // GET /posts/:id
+  // GET
   expressApp.get("/db", (req, res) => {
     const settings = db.data.options;
     res.send(settings);
   });
 
   // POST /db
-  expressApp.post("/db", (req, res) => {
+  expressApp.post("/db", async (req, res) => {
     db.data.options = req.body;
-    db.write();
-    res.send("ok");
+    await db.write();
+    res.send(db.data);
   });
 
   const server = http.createServer(expressApp);
@@ -224,9 +221,9 @@ const startExpressServer = () => {
     });
   });
 
-  ipcMain.on("setMidiOutputDevice", (evt, msg) => {
+  ipcMain.on("setMidiOutputDevice", async (evt, msg) => {
     db.data.options.settings.midiOutDevice = msg;
-    db.write();
+    await db.write();
     midiOutputDevice = db.data.options.settings.midiOutDevice;
   });
 
@@ -278,7 +275,7 @@ const startExpressServer = () => {
         filters: [{ name: "", extensions: ["json"] }],
       })
       .then((file) => {
-        fs.readFile(file.filePaths[0], (err, data) => {
+        fs.readFile(file.filePaths[0], async (err, data) => {
           if (err) {
             mainWindow.webContents.send(
               "ERROR_MESSAGE",
@@ -289,8 +286,8 @@ const startExpressServer = () => {
           db.data.options.settings = objs.settings;
           db.data.options.tabs = objs.tabs;
           db.data.options.elements = objs.elements;
-          db.write();
-          mainWindow.webContents.send("MESSAGE", "Backup successfully loaded");
+          await db.write();
+          mainWindow.webContents.send("MESSAGE", "Backup successfully loaded. Please RELOAD THE BOARD!");
         });
       })
       .catch((err) => {
