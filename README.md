@@ -71,9 +71,10 @@ For serve frontend locally in dev mode go to /app folder and run:
 
 `npm run start`
 
-For build a dist package run:
+### Build
 
-`npm run package`
+- build the FE first: go to /app and run `npm run build`
+- build the BE in the root: `npm run package`
 
 And out folder will be created. Inside the out folder will be the folder with the .exe and all others files.
 
