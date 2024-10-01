@@ -11,9 +11,10 @@ import Elements from './Elements';
 import * as boardActions from '../store/actions/boardActions';
 import * as elementActions from '../store/actions/elementsAction';
 import {
-    getStatus,
-    getMidiMsg,
-} from '../store/selectors/devicesSelectors';
+  getStatus,
+  getMidiMsg,
+  getOscMsg,
+} from "../store/selectors/devicesSelectors";
 import {
     getEditingMode,
     getLoading,
@@ -68,42 +69,44 @@ class Board extends Component {
             [DrawerForms.LABEL_FORM]: <LabelForm />,
         };
         return (
-            <div className="board">
-                {this.props.isEditingMode && this.props.isVisibilityMode && <TabletOverlay/>}
-                <Header status={this.props.status} />
-                <Drawer open={this.props.isOpenDrawer}>
-                    {drawerTypes[this.props.formRequested]}
-                </Drawer>
-                <Tabs />
-                <div className={boardWrapper} data-tid="container">
-                    <Elements
-                        socket={socket}
-                    />
-                </div>
-                <Footer
-                    status={this.props.status}
-                    midiMsg={this.props.midiMsg}
-                    loading={this.props.loading}
-                />
+          <div className="board">
+            {this.props.isEditingMode && this.props.isVisibilityMode && (
+              <TabletOverlay />
+            )}
+            <Header status={this.props.status} />
+            <Drawer open={this.props.isOpenDrawer}>
+              {drawerTypes[this.props.formRequested]}
+            </Drawer>
+            <Tabs />
+            <div className={boardWrapper} data-tid="container">
+              <Elements socket={socket} />
             </div>
+            <Footer
+              status={this.props.status}
+              midiMsg={this.props.midiMsg}
+              loading={this.props.loading}
+              oscMsg={this.props.oscMsg}
+            />
+          </div>
         );
     }
 }
 
-const mapStateToProps = state => ({
-    obj: getEditedElement(state),
-    status: getStatus(state),
-    elements: getElements(state),
-    tabs: getTabs(state),
-    isEditingMode: getEditingMode(state),
-    isVisibilityMode: getVisibilityMode(state),
-    isOpenDrawer: isOpenDrawer(state),
-    formRequested: formRequested(state),
-    loading: getLoading(state),
-    currentTab: getCurrentTab(state),
-    settings: getSettings(state),
-    publicIp: getPublicIp(state),
-    midiMsg: getMidiMsg(state),
+const mapStateToProps = (state) => ({
+  obj: getEditedElement(state),
+  status: getStatus(state),
+  elements: getElements(state),
+  tabs: getTabs(state),
+  isEditingMode: getEditingMode(state),
+  isVisibilityMode: getVisibilityMode(state),
+  isOpenDrawer: isOpenDrawer(state),
+  formRequested: formRequested(state),
+  loading: getLoading(state),
+  currentTab: getCurrentTab(state),
+  settings: getSettings(state),
+  publicIp: getPublicIp(state),
+  oscMsg: getOscMsg(state),
+  midiMsg: getMidiMsg(state),
 });
 
 const mapDispatchToProps = dispatch => ({

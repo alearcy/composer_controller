@@ -1,25 +1,27 @@
 // Modules to control application life and create native browser window
-import { app, BrowserWindow, ipcMain, dialog } from "electron";
+import { app, BrowserWindow, dialog, ipcMain } from "electron";
 // EXPRESS IMPORTS
-import express from "express";
-import path from "path";
-import { WebMidi } from "webmidi";
-import { Server } from "socket.io";
-import { LowSync } from "lowdb";
-import { JSONFilePreset } from "lowdb/node";
 import cors from "cors";
+import express from "express";
 import fs from "fs";
-import os from "os";
-import { fileURLToPath } from "url";
 import http from 'http';
+import { JSONFilePreset } from "lowdb/node";
+import os from "os";
+import path from "path";
+import { Server } from "socket.io";
+import { fileURLToPath } from "url";
+import OSC from 'osc-js';
 
-const dbDefaults ={
+const dbDefaults = {
   options: {
     elements: [],
     tabs: [],
-    settings: {},
+    settings: {
+      oscInPort: 9003,
+      oscOutPort: 9002,
+    },
   },
-  time: null
+  time: null,
 };
 
 const db = await JSONFilePreset("db.json", dbDefaults);
@@ -99,6 +101,8 @@ const startExpressServer = () => {
   // EXPRESSSSSS
   const expressApp = express();
   const port = 9000;
+  const oscInPort = 9002;
+  const oscOutPort = 9003;
 
   let ip = undefined;
   let counter = 0;
@@ -110,28 +114,6 @@ const startExpressServer = () => {
   expressApp.get("/", function (_, res) {
     res.sendFile(path.join(__dirname, "app", "build", "index.html"));
   });
-
-  let midiOutputDevice;
-
-  WebMidi.enable()
-    .then(onEnabled)
-    .catch((err) => mainWindow.webContents.send("ERROR_MESSAGE", err));
-
-  function onEnabled() {
-    if (WebMidi.outputs.length < 1) {
-      mainWindow.webContents.send(
-        "ERROR_MESSAGE",
-        "No MIDI output ports found."
-      );
-    } else {
-      let devices = [];
-      WebMidi.outputs.forEach((device, _) => {
-        devices.push(device.name);
-      });
-
-      mainWindow.webContents.send("midiOutputDevices", devices);
-    }
-  }
 
   // GET
   expressApp.get("/db", (req, res) => {
@@ -147,6 +129,8 @@ const startExpressServer = () => {
   });
 
   const server = http.createServer(expressApp);
+  const osc = new OSC({ plugin: new OSC.DatagramPlugin() });
+  osc.open();
 
   const checkIpAddress = () => {
     const connections = os.networkInterfaces();
@@ -163,6 +147,10 @@ const startExpressServer = () => {
 
   server.listen(port, () => {
     checkIpAddress();
+    io.sockets.emit(
+      "MESSAGE",
+      `OSC input: ${oscInPort}, OSC output: ${oscOutPort}`
+    );
   });
 
   const io = new Server(server, {
@@ -175,58 +163,13 @@ const startExpressServer = () => {
     // prevent messages on every client connection
     counter++;
 
-    if (midiOutputDevice !== undefined) {
-      mainWindow.webContents.send("midiOutputDevice", midiOutputDevice);
-    }
-
-    socket.on("MIDIBTN", (msg) => {
-      if (midiOutputDevice !== undefined) {
-        socket.broadcast.emit("MIDIBTN", msg);
-        const midi = WebMidi.getOutputByName(midiOutputDevice);
-        if (midi) {
-          if (msg.midiType === "cc") {
-            // sendControlChange ( controller  [value=0]  [channel=all]  [options={}] )
-            midi.sendControlChange(msg.value, 127, msg.channel);
-          } else {
-            // playNote ( note  [channel=all]  [options={}] )
-            midi.playNote(msg.value, msg.channel, { duration: 100 });
-          }
-        }
-      } else {
-        io.sockets.emit(
-          "ERROR_MESSAGE",
-          "ERROR: Please, set a MIDI device first"
-        );
-      }
-    });
-
-    socket.on("MIDISLIDER", (msg) => {
-      if (midiOutputDevice !== undefined) {
-        socket.broadcast.emit("MIDISLIDER", msg);
-        const midi = WebMidi.getOutputByName(midiOutputDevice);
-        if (midi) {
-          if (msg.midiType === "pitch") {
-            midi.sendPitchBend(msg.value, msg.channel);
-          } else {
-            // sendControlChange ( controller  [value=0]  [channel=all]  [options={}] )
-            midi.sendControlChange(msg.ccValue, msg.value, msg.channel);
-          }
-        }
-      } else {
-        io.sockets.emit(
-          "ERROR_MESSAGE",
-          "ERROR: Please, set a MIDI device first"
-        );
-      }
+    socket.on("osc", (msg) => {
+      osc.send(new OSC.Message(msg.address, msg.value), { port: oscOutPort });
     });
   });
 
-  ipcMain.on("setMidiOutputDevice", async (evt, msg) => {
-    db.data.options.settings.midiOutDevice = msg;
-    await db.write();
-    midiOutputDevice = db.data.options.settings.midiOutDevice;
-  });
 
+  // IMPORT AND EXPORT BACKUP
   ipcMain.on("exportBackup", () => {
     dialog
       .showSaveDialog({
@@ -297,4 +240,4 @@ const startExpressServer = () => {
         );
       });
   });
-}
+  }

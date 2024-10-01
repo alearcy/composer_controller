@@ -17,17 +17,19 @@ import {
 } from '../../constants/actionConstants';
 
 const initialState = {
-    isEditingMode   : false,
-    isVisibilityMode   : false,
-    loading         : false,
-    isOpenDrawer    : false,
-    formRequested   : '',
-    isConfirmVisible: false,
-    publicIp        : '',
-    settings        : {
-        midiInDevice : '',
-        midiOutDevice: '',
-    }
+  isEditingMode: false,
+  isVisibilityMode: false,
+  loading: false,
+  isOpenDrawer: false,
+  formRequested: "",
+  isConfirmVisible: false,
+  publicIp: "",
+  settings: {
+    midiInDevice: "",
+    midiOutDevice: "",
+    oscInPort: 9003,
+    oscOutPort: 9002,
+  },
 };
 
 export default createReducer(initialState, {

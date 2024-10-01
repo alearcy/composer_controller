@@ -27,3 +27,10 @@ export function sendConnectionStatus(value) {
     payload: value,
   };
 }
+
+export function sendOSCMessage(msg) {
+  return {
+    type: messageActions.SEND_OSC_MESSAGE,
+    payload: msg,
+  };
+}

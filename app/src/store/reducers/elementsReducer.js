@@ -32,14 +32,15 @@ export default createReducer(initialState, {
       w: 100,
       h: 100,
       static: false,
-      label: 'Label',
+      label: "Label",
       tab: action.payload,
       type: ElementTypes.BTN,
       midiType: MidiTypes.NOTE,
       channel: 1,
       value: 0,
+      oscValue: id,
       styleColor: DefaultColors.STYLE_COLOR,
-      labelColor: DefaultColors.TEXT_COLOR
+      labelColor: DefaultColors.TEXT_COLOR,
     };
     return {
       ...state,
@@ -55,19 +56,20 @@ export default createReducer(initialState, {
       w: 100,
       h: 300,
       static: false,
-      label: 'Label',
+      label: "Label",
       tab: action.payload,
       type: ElementTypes.SLIDER,
       midiType: MidiTypes.CC,
       channel: 1,
       ccValue: 0,
+      oscValue: id,
       styleColor: DefaultColors.STYLE_COLOR,
       labelColor: DefaultColors.TEXT_COLOR,
       minCcValue: 0,
       maxCcValue: 127,
       minPitchValue: -1,
       maxPitchValue: 1,
-      orientation: SliderOrientation.VERTICAL
+      orientation: SliderOrientation.VERTICAL,
     };
     return {
       ...state,
