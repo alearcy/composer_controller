@@ -35,7 +35,6 @@ const Element = ({
 
     const sendSlideValue = (obj, v) => {
         const value = Array.isArray(v) ? parseFloat(v[0]) : parseFloat(v)
-        console.log("v", value)
         setCurrentValue(value);
         sendOSC(obj, value);
     }
@@ -56,8 +55,6 @@ const Element = ({
     const sendFormattedOscMessage = (data) => {
         let msg = '';
         if (data.type === MsgTypes.SLIDER || data.type === MsgTypes.BUTTON) {
-            console.log(data.value);
-            
             msg = `${data.address}, ${data.value}`;
         } else {
             msg = `${data.address}, ${Math.floor(data.value * 8191)}`;
