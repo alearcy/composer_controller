@@ -31,7 +31,6 @@ import { importSettingsFromFile, loadSettings } from '../actions';
 function* saveLayoutSaga() {
   yield put(handleLoading(true));
   const isEditingMode = yield select(getEditingMode);
-  console.log("entro saga");
   try {
     const elementsStore = yield select(getElements);
     const tabsStore = yield select(getTabs);
@@ -67,6 +66,26 @@ function* initBoardSaga() {
     console.error('Error initializing layout', e);
   }
   yield put(handleLoading(false));
+}
+
+function* exitEditingSaga() {
+  try {
+    const publicIp = yield select(getPublicIp);
+    const response =
+      process.env.NODE_ENV !== "production"
+        ? yield call(axios.get, "http://" + publicIp + "/db")
+        : yield call(axios.get, "/db");
+    const data = response.data;
+    yield put(loadElements(data.elements));
+    yield put(loadTabs(data.tabs));
+    yield put(loadSettings(data.settings));
+    yield put(initBoardDone());
+  } catch (e) {
+    console.error("Error initializing layout", e);
+  }
+  const isEditingMode = yield select(getEditingMode);
+  if (isEditingMode) yield put(handleEditingMode());
+
 }
 
 function* closeDrawerSaga() {
@@ -114,7 +133,7 @@ export default function* boardSagasWatcher() {
   yield takeLatest([SAVE_LAYOUT, SAVE_SETTINGS_FORM], saveLayoutSaga);
   yield takeLatest(INIT_BOARD, initBoardSaga);
   yield takeLatest(INIT_BOARD_DONE, saveLayoutSaga);
-  yield takeLatest(EXIT_EDITING_MODE, initBoardSaga);
+  yield takeLatest(EXIT_EDITING_MODE, exitEditingSaga);
   yield takeLatest(RESET_BOARD, saveLayoutSaga);
   yield takeLatest([SAVE_ELEMENT_FORM, SAVE_TAB_FORM, LOAD_ELEMENTS, LOAD_TABS, SAVE_SETTINGS_FORM], closeDrawerSaga);
   yield takeLatest(HANDLE_EDIT_ELEMENT, elementFormRequestSaga);

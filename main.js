@@ -165,8 +165,6 @@ const startExpressServer = () => {
     counter++;
 
     socket.on("osc", (msg) => {
-      console.log("osc msg", msg);
-      
       osc.send(new OSC.Message(msg.address, msg.value), { port: oscOutPort });
     });
   });

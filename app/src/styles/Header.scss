@@ -26,4 +26,12 @@
     align-items: center;
     color: white;
   }
+  .confirmation-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .confirmation-area--label {
+      margin-right: 10px;
+    }
+  }
 }

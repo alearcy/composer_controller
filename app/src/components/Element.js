@@ -25,6 +25,7 @@ const Element = ({
     const handleResetPitch = (obj) => {
         if (obj.msgType === MsgTypes.PITCH) {
             setCurrentValue(0);
+            sendOSC(obj, 0);
         }
     }
 
@@ -57,7 +58,7 @@ const Element = ({
         if (data.type === MsgTypes.SLIDER || data.type === MsgTypes.BUTTON) {
             console.log(data.value);
             
-            msg = `${data.address}, ${Math.floor(data.value)}`;
+            msg = `${data.address}, ${data.value}`;
         } else {
             msg = `${data.address}, ${Math.floor(data.value * 8191)}`;
         }
@@ -86,7 +87,7 @@ const Element = ({
                         max: [obj.msgType === MsgTypes.SLIDER ? obj.maxValue : obj.maxPitchValue]
                     }}
                     direction='rtl'
-                    step={obj.msgType === MsgTypes.SLIDER ? 1 : 0.001}
+                    step={0.001}
                     orientation={obj.orientation}
                     disabled={isEditingMode}
                     onSlide={(v) => sendSlideValue(obj, v)}
