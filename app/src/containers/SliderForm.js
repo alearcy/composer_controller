@@ -5,7 +5,7 @@ import { CirclePicker } from 'react-color';
 import * as boardActions from '../store/actions/boardActions';
 import * as elementsActions from '../store/actions/elementsAction';
 import { getEditedElement } from '../store/selectors/elementsSelectors';
-import { StyleColors, LabelColors } from '../constants/genericConstants';
+import { StyleColors, LabelColors, MsgTypes } from '../constants/genericConstants';
 import { getConfirmationStatus } from '../store/selectors/boardSelectors';
 
 const basicSliderForm = (props) => {
@@ -61,6 +61,13 @@ const basicSliderForm = (props) => {
           />
         </div>
         <div>
+          <label>Type:</label>
+          <select value={values.msgType} onChange={handleChange} id="msgType">
+            <option value={MsgTypes.SLIDER}>Slider</option>
+            <option value={MsgTypes.PITCH}>Pitch</option>
+          </select>
+        </div>
+        <div>
           <label>OSC string:</label>
           <input
             name="oscValue"
@@ -73,9 +80,9 @@ const basicSliderForm = (props) => {
         <div>
           <label>Min value:</label>
           <input
-            name="minCcValue"
+            name="minValue"
             type="number"
-            value={values.minCcValue}
+            value={values.minValue}
             onChange={handleChange}
             onBlur={handleBlur}
           />
@@ -83,9 +90,9 @@ const basicSliderForm = (props) => {
         <div>
           <label>Max value:</label>
           <input
-            name="maxCcValue"
+            name="maxValue"
             type="number"
-            value={values.maxCcValue}
+            value={values.maxValue}
             onChange={handleChange}
             onBlur={handleBlur}
           />

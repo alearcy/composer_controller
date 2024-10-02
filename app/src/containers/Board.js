@@ -12,7 +12,6 @@ import * as boardActions from '../store/actions/boardActions';
 import * as elementActions from '../store/actions/elementsAction';
 import {
   getStatus,
-  getMidiMsg,
   getOscMsg,
 } from "../store/selectors/devicesSelectors";
 import {

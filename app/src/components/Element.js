@@ -7,7 +7,7 @@ import OscButton from './OscButton';
 import Label from './Label';
 import Nouislider from "nouislider-react";
 import "nouislider/distribute/nouislider.css";
-import { sendMIDIMessage, sendOSCMessage } from "../store/actions";
+import { sendOSCMessage } from "../store/actions";
 
 const Element = ({
     obj,
@@ -23,42 +23,26 @@ const Element = ({
     let dispatch = useDispatch();
 
     const handleResetPitch = (obj) => {
-        if (obj.midiType === MsgTypes.PITCH) {
+        if (obj.msgType === MsgTypes.PITCH) {
             setCurrentValue(0);
         }
     }
 
     const sendBtnMsg = (obj) => {
         sendOSC(obj, obj.value);
-        //sendMidiFromButtons(obj);
     }
 
-    // const sendMidiFromButtons = (obj) => {
-    //     const data = {
-    //         midiType: obj.midiType,
-    //         channel: obj.channel,
-    //         value: obj.value,
-    //     };
-    //     socket.emit('MIDIBTN', data);
-    //     sendFormattedMidiButtonMessage(data);
-    // }
-
-    // const sendFormattedMidiButtonMessage = (data) => {
-    //     const msg = `Type: ${data.midiType}, Channel: ${data.channel}, value: ${data.value}`;
-    //     dispatch(sendMIDIMessage(msg));
-    // }
-
     const sendSlideValue = (obj, v) => {
-        const value = Array.isArray(v) ? v[0] : 0
+        const value = Array.isArray(v) ? parseFloat(v[0]) : parseFloat(v)
+        console.log("v", value)
         setCurrentValue(value);
         sendOSC(obj, value);
-        //sendMidiFromSliders(obj, value);
     }
 
     const sendOSC = (obj, value) => {
         const tabAddress = currentTab.label.replace(/\s+/g, '').toLowerCase();
-        const address = `/${tabAddress}/${obj.oscValue}`; //TODO così manda stringa, sostituire con number
-        const type = obj.midiType;
+        const address = `/${tabAddress}/${obj.oscValue}`;
+        const type = obj.msgType;
         const data = {
             type,
             address,
@@ -68,20 +52,11 @@ const Element = ({
         sendFormattedOscMessage(data);
     }
 
-    // const sendMidiFromSliders = (obj, v) => {
-    //     const data = {
-    //         midiType: obj.midiType,
-    //         channel: obj.channel,
-    //         ccValue: obj.ccValue,
-    //         value: obj.midiType === MidiTypes.PITCH ? v : Math.floor(v),
-    //     };
-    //     socket.emit('MIDISLIDER', data);
-    //     sendFormattedMidiSliderMessage(data);
-    // }
-
     const sendFormattedOscMessage = (data) => {
         let msg = '';
-        if (data.type === MsgTypes.CC || data.type === MsgTypes.NOTE) {
+        if (data.type === MsgTypes.SLIDER || data.type === MsgTypes.BUTTON) {
+            console.log(data.value);
+            
             msg = `${data.address}, ${Math.floor(data.value)}`;
         } else {
             msg = `${data.address}, ${Math.floor(data.value * 8191)}`;
@@ -107,11 +82,11 @@ const Element = ({
                     start={currentValue}
                     behaviour="drag"
                     range={{
-                        min: [obj.midiType === MsgTypes.CC ? obj.minCcValue : obj.minPitchValue],
-                        max: [obj.midiType === MsgTypes.CC ? obj.maxCcValue : obj.maxPitchValue]
+                        min: [obj.msgType === MsgTypes.SLIDER ? obj.minValue : obj.minPitchValue],
+                        max: [obj.msgType === MsgTypes.SLIDER ? obj.maxValue : obj.maxPitchValue]
                     }}
                     direction='rtl'
-                    step={obj.midiType === MsgTypes.CC ? 1 : 0.001}
+                    step={obj.msgType === MsgTypes.SLIDER ? 1 : 0.001}
                     orientation={obj.orientation}
                     disabled={isEditingMode}
                     onSlide={(v) => sendSlideValue(obj, v)}

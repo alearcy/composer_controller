@@ -22,9 +22,10 @@ export const DrawerForms = {
   SETTINGS_FORM: 'SETTINGS_FORM'
 };
 
-// MIDI TYPES
+// MSG TYPES
 export const MsgTypes = {
-  DEFAULT: 'default',
+  SLIDER: 'slide',
+  BUTTON: 'button',
   PITCH: 'pitch',
 };
 
