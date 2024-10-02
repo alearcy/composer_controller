@@ -86,6 +86,12 @@ div[data-reactroot] {
 
   &.editing-mode {
     overflow: auto;
+    height: 100vh;
+    background-image:
+        linear-gradient(to right, RGB(203 213 225 / 10%) 1px, transparent 1px),
+        linear-gradient(to bottom, RGB(203 213 225 / 10%) 1px, transparent 1px);
+    background-size: 25px 25px;
+    background-position: top left;
   }
   &.visibilityMode {
     opacity: .1;
