@@ -5,7 +5,7 @@ import { CirclePicker } from 'react-color';
 import * as boardActions from '../store/actions/boardActions';
 import * as elementsActions from '../store/actions/elementsAction';
 import { getEditedElement } from '../store/selectors/elementsSelectors';
-import { MidiTypes, StyleColors, LabelColors, MidiMap } from '../constants/genericConstants';
+import { StyleColors, LabelColors } from '../constants/genericConstants';
 import { getConfirmationStatus } from '../store/selectors/boardSelectors';
 
 const basicSliderForm = (props) => {
@@ -61,25 +61,7 @@ const basicSliderForm = (props) => {
           />
         </div>
         <div>
-          <label>MIDI:</label>
-          <select value={values.midiType} onChange={handleChange} id="midiType">
-            <option value="">No midi signal</option>
-            <option value={MidiTypes.CC}>Control change</option>
-            <option value={MidiTypes.PITCH}>Pitch</option>
-          </select>
-        </div>
-        <div>
-          <label>Channel:</label>
-          <input
-            name="channel"
-            type="number"
-            value={values.channel}
-            onChange={handleChange}
-            onBlur={handleBlur}
-          />
-        </div>
-        <div>
-          <label>OSC value:</label>
+          <label>OSC string:</label>
           <input
             name="oscValue"
             type="text"
@@ -88,43 +70,26 @@ const basicSliderForm = (props) => {
             onBlur={handleBlur}
           />
         </div>
-        {values.midiType === MidiTypes.CC && (
-          <div>
-            <div>
-              <label>Control change value:</label>
-              <input
-                name="ccValue"
-                type="number"
-                value={values.ccValue}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
-              {values.midiType === MidiTypes.NOTE
-                ? MidiMap[values.value]
-                : null}
-            </div>
-            <div>
-              <label>Min value:</label>
-              <input
-                name="minCcValue"
-                type="number"
-                value={values.minCcValue}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
-            </div>
-            <div>
-              <label>Max value:</label>
-              <input
-                name="maxCcValue"
-                type="number"
-                value={values.maxCcValue}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
-            </div>
-          </div>
-        )}
+        <div>
+          <label>Min value:</label>
+          <input
+            name="minCcValue"
+            type="number"
+            value={values.minCcValue}
+            onChange={handleChange}
+            onBlur={handleBlur}
+          />
+        </div>
+        <div>
+          <label>Max value:</label>
+          <input
+            name="maxCcValue"
+            type="number"
+            value={values.maxCcValue}
+            onChange={handleChange}
+            onBlur={handleBlur}
+          />
+        </div>
         <div className="submit-area">
           <button type="submit" disabled={isSubmitting} className="confirm">
             {isSubmitting ? "Loading..." : "Save"}

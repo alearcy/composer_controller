@@ -1,5 +1,5 @@
 import createReducer from '../../helpers/create-reducer';
-import { DefaultColors, ElementTypes, MidiTypes, SliderOrientation } from '../../constants/genericConstants';
+import { DefaultColors, ElementTypes, MsgTypes, SliderOrientation } from '../../constants/genericConstants';
 import {
   CREATE_BUTTON,
   CREATE_LABEL,
@@ -35,7 +35,7 @@ export default createReducer(initialState, {
       label: "Label",
       tab: action.payload,
       type: ElementTypes.BTN,
-      midiType: MidiTypes.NOTE,
+      midiType: MsgTypes.NOTE,
       channel: 1,
       value: 0,
       oscValue: id,
@@ -59,7 +59,7 @@ export default createReducer(initialState, {
       label: "Label",
       tab: action.payload,
       type: ElementTypes.SLIDER,
-      midiType: MidiTypes.CC,
+      midiType: MsgTypes.CC,
       channel: 1,
       ccValue: 0,
       oscValue: id,

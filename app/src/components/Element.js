@@ -2,7 +2,7 @@ import React, {memo, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
-import { ElementTypes, MidiTypes } from '../constants/genericConstants';
+import { ElementTypes, MsgTypes } from '../constants/genericConstants';
 import OscButton from './OscButton';
 import Label from './Label';
 import Nouislider from "nouislider-react";
@@ -23,41 +23,41 @@ const Element = ({
     let dispatch = useDispatch();
 
     const handleResetPitch = (obj) => {
-        if (obj.midiType === MidiTypes.PITCH) {
+        if (obj.midiType === MsgTypes.PITCH) {
             setCurrentValue(0);
         }
     }
 
     const sendBtnMsg = (obj) => {
         sendOSC(obj, obj.value);
-        sendMidiFromButtons(obj);
+        //sendMidiFromButtons(obj);
     }
 
-    const sendMidiFromButtons = (obj) => {
-        const data = {
-            midiType: obj.midiType,
-            channel: obj.channel,
-            value: obj.value,
-        };
-        socket.emit('MIDIBTN', data);
-        sendFormattedMidiButtonMessage(data);
-    }
+    // const sendMidiFromButtons = (obj) => {
+    //     const data = {
+    //         midiType: obj.midiType,
+    //         channel: obj.channel,
+    //         value: obj.value,
+    //     };
+    //     socket.emit('MIDIBTN', data);
+    //     sendFormattedMidiButtonMessage(data);
+    // }
 
-    const sendFormattedMidiButtonMessage = (data) => {
-        const msg = `Type: ${data.midiType}, Channel: ${data.channel}, value: ${data.value}`;
-        dispatch(sendMIDIMessage(msg));
-    }
+    // const sendFormattedMidiButtonMessage = (data) => {
+    //     const msg = `Type: ${data.midiType}, Channel: ${data.channel}, value: ${data.value}`;
+    //     dispatch(sendMIDIMessage(msg));
+    // }
 
     const sendSlideValue = (obj, v) => {
         const value = Array.isArray(v) ? v[0] : 0
         setCurrentValue(value);
         sendOSC(obj, value);
-        sendMidiFromSliders(obj, value);
+        //sendMidiFromSliders(obj, value);
     }
 
     const sendOSC = (obj, value) => {
         const tabAddress = currentTab.label.replace(/\s+/g, '').toLowerCase();
-        const address = `/${tabAddress}/${obj.oscValue}`;
+        const address = `/${tabAddress}/${obj.oscValue}`; //TODO così manda stringa, sostituire con number
         const type = obj.midiType;
         const data = {
             type,
@@ -68,30 +68,20 @@ const Element = ({
         sendFormattedOscMessage(data);
     }
 
-    const sendMidiFromSliders = (obj, v) => {
-        const data = {
-            midiType: obj.midiType,
-            channel: obj.channel,
-            ccValue: obj.ccValue,
-            value: obj.midiType === MidiTypes.PITCH ? v : Math.floor(v),
-        };
-        socket.emit('MIDISLIDER', data);
-        sendFormattedMidiSliderMessage(data);
-    }
-
-    const sendFormattedMidiSliderMessage = (data) => {
-        let msg = '';
-        if (data.midiType === MidiTypes.CC || data.type === MidiTypes.NOTE) {
-            msg = `Type: ${data.midiType}, Channel: ${data.channel}, value1: ${data.ccValue}, value2: ${data.value}`;
-        } else {
-            msg = `Type: ${data.midiType}, Channel: ${data.channel}, value: ${Math.floor(data.value * 8191)}`;
-        }
-        dispatch(sendMIDIMessage(msg))
-    }
+    // const sendMidiFromSliders = (obj, v) => {
+    //     const data = {
+    //         midiType: obj.midiType,
+    //         channel: obj.channel,
+    //         ccValue: obj.ccValue,
+    //         value: obj.midiType === MidiTypes.PITCH ? v : Math.floor(v),
+    //     };
+    //     socket.emit('MIDISLIDER', data);
+    //     sendFormattedMidiSliderMessage(data);
+    // }
 
     const sendFormattedOscMessage = (data) => {
         let msg = '';
-        if (data.type === MidiTypes.CC || data.type === MidiTypes.NOTE) {
+        if (data.type === MsgTypes.CC || data.type === MsgTypes.NOTE) {
             msg = `${data.address}, ${Math.floor(data.value)}`;
         } else {
             msg = `${data.address}, ${Math.floor(data.value * 8191)}`;
@@ -117,11 +107,11 @@ const Element = ({
                     start={currentValue}
                     behaviour="drag"
                     range={{
-                        min: [obj.midiType === MidiTypes.CC ? obj.minCcValue : obj.minPitchValue],
-                        max: [obj.midiType === MidiTypes.CC ? obj.maxCcValue : obj.maxPitchValue]
+                        min: [obj.midiType === MsgTypes.CC ? obj.minCcValue : obj.minPitchValue],
+                        max: [obj.midiType === MsgTypes.CC ? obj.maxCcValue : obj.maxPitchValue]
                     }}
                     direction='rtl'
-                    step={obj.midiType === MidiTypes.CC ? 1 : 0.001}
+                    step={obj.midiType === MsgTypes.CC ? 1 : 0.001}
                     orientation={obj.orientation}
                     disabled={isEditingMode}
                     onSlide={(v) => sendSlideValue(obj, v)}

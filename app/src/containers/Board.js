@@ -83,7 +83,6 @@ class Board extends Component {
             </div>
             <Footer
               status={this.props.status}
-              midiMsg={this.props.midiMsg}
               loading={this.props.loading}
               oscMsg={this.props.oscMsg}
             />
@@ -106,14 +105,11 @@ const mapStateToProps = (state) => ({
   settings: getSettings(state),
   publicIp: getPublicIp(state),
   oscMsg: getOscMsg(state),
-  midiMsg: getMidiMsg(state),
 });
 
 const mapDispatchToProps = dispatch => ({
     toggleStatic: obj => dispatch(elementActions.lockElement(obj)),
     exitEditingMode: () => dispatch(boardActions.exitEditingMode()),
-    sendMidiOutDevice: devices => dispatch(devicesActions.sendMidiOutDevice(devices)),
-    sendMidiInDevice: devices => dispatch(devicesActions.sendMidiInDevice(devices)),
     sendConnectionStatus: status => dispatch(devicesActions.sendConnectionStatus(status)),
     initBoard: () => dispatch(boardActions.initBoard()),
     importFromBkp: objs => dispatch(boardActions.importFromBkp(objs)),

@@ -131,6 +131,7 @@ const startExpressServer = () => {
   const server = http.createServer(expressApp);
   const osc = new OSC({ plugin: new OSC.DatagramPlugin() });
   osc.open();
+  
 
   const checkIpAddress = () => {
     const connections = os.networkInterfaces();
@@ -164,6 +165,8 @@ const startExpressServer = () => {
     counter++;
 
     socket.on("osc", (msg) => {
+      console.log("osc msg", msg);
+      
       osc.send(new OSC.Message(msg.address, msg.value), { port: oscOutPort });
     });
   });
