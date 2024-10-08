@@ -25,7 +25,6 @@ const dbDefaults = {
 };
 
 const db = await JSONFilePreset("db.json", dbDefaults);
-await db.write();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
