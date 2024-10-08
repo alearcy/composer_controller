@@ -38,56 +38,63 @@ library.add(faLock, faLockOpen, faPen, faEllipsisH, faExpand, faCogs);
 let socket;
 
 class Board extends Component {
-    constructor(props) {
-        super(props);
-    }
+  constructor(props) {
+    super(props);
+  }
 
-    componentDidMount() {
-        this.props.sendConnectionStatus(ConnectionStatus.CONNECTING);
-        const localIp = process.env.NODE_ENV === 'production' ? window.location.href : 'localhost:9000';
-        socket = io(localIp);
-        this.props.setPublicIp(localIp);
-        this.props.initBoard();
-        socket.on('importBackupDone', () => {
-            this.props.initBoard();
-        });
-        socket.on('connect', () => {
-            this.props.sendConnectionStatus(ConnectionStatus.CONNECTED);
-        });
-        socket.on('disconnect', () => {
-            this.props.sendConnectionStatus(ConnectionStatus.DISCONNECTED);
-        });
-    }
+  componentDidMount() {
+    this.props.sendConnectionStatus(ConnectionStatus.CONNECTING);
+    const localIp =
+      process.env.NODE_ENV === "production"
+        ? window.location.href
+        : "localhost:9000";
+    socket = io(localIp);
+    this.props.setPublicIp(localIp);
+    this.props.initBoard();
+    socket.on("importBackupDone", () => {
+      this.props.initBoard();
+    });
+    socket.on("connect", () => {
+      this.props.sendConnectionStatus(ConnectionStatus.CONNECTED);
+    });
+    socket.on("disconnect", () => {
+      this.props.sendConnectionStatus(ConnectionStatus.DISCONNECTED);
+    });
+  }
 
-    render() {
-        const boardWrapper = classNames({ 'board-wrapper': true, 'editing-mode': this.props.isEditingMode, 'visibilityMode': this.props.isVisibilityMode });
-        const drawerTypes = {
-            [DrawerForms.BUTTON_FORM]: <ButtonForm />,
-            [DrawerForms.SLIDER_FORM]: <SliderForm />,
-            [DrawerForms.TAB_FORM]: <TabForm />,
-            [DrawerForms.LABEL_FORM]: <LabelForm />,
-        };
-        return (
-          <div className="board">
-            {this.props.isEditingMode && this.props.isVisibilityMode && (
-              <TabletOverlay />
-            )}
-            <Header status={this.props.status} />
-            <Drawer open={this.props.isOpenDrawer}>
-              {drawerTypes[this.props.formRequested]}
-            </Drawer>
-            <Tabs />
-            <div className={boardWrapper} data-tid="container">
-              <Elements socket={socket} />
-            </div>
-            <Footer
-              status={this.props.status}
-              loading={this.props.loading}
-              oscMsg={this.props.oscMsg}
-            />
-          </div>
-        );
-    }
+  render() {
+    const boardWrapper = classNames({
+      "board-wrapper": true,
+      "editing-mode": this.props.isEditingMode,
+      visibilityMode: this.props.isVisibilityMode,
+    });
+    const drawerTypes = {
+      [DrawerForms.BUTTON_FORM]: <ButtonForm />,
+      [DrawerForms.SLIDER_FORM]: <SliderForm />,
+      [DrawerForms.TAB_FORM]: <TabForm />,
+      [DrawerForms.LABEL_FORM]: <LabelForm />,
+    };
+    return (
+      <div className="board">
+        {this.props.isEditingMode && this.props.isVisibilityMode && (
+          <TabletOverlay />
+        )}
+        <Header status={this.props.status} />
+        <Drawer open={this.props.isOpenDrawer}>
+          {drawerTypes[this.props.formRequested]}
+        </Drawer>
+        <Tabs />
+        <div className={boardWrapper} data-tid="container">
+          <Elements socket={socket} />
+        </div>
+        <Footer
+          status={this.props.status}
+          loading={this.props.loading}
+          oscMsg={this.props.oscMsg}
+        />
+      </div>
+    );
+  }
 }
 
 const mapStateToProps = (state) => ({
@@ -112,7 +119,7 @@ const mapDispatchToProps = dispatch => ({
     sendConnectionStatus: status => dispatch(devicesActions.sendConnectionStatus(status)),
     initBoard: () => dispatch(boardActions.initBoard()),
     importFromBkp: objs => dispatch(boardActions.importFromBkp(objs)),
-    setPublicIp: ip => dispatch(boardActions.setPublicIp(ip))
+    setPublicIp: ip => dispatch(boardActions.setPublicIp(ip)),
 });
 
 export default connect(

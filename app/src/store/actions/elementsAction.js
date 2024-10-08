@@ -96,3 +96,10 @@ export function deleteElementsFromTab(id) {
     payload: id,
   }
 }
+
+export function saveLastValue(obj, value) {
+  return {
+    type: actions.SAVE_LAST_VALUE,
+    payload: { obj, value },
+  };
+}

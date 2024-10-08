@@ -1,4 +1,4 @@
-import React, {memo, useState} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
@@ -7,7 +7,9 @@ import OscButton from './OscButton';
 import Label from './Label';
 import Nouislider from "nouislider-react";
 import "nouislider/distribute/nouislider.css";
-import { sendOSCMessage } from "../store/actions";
+import { saveLayout, sendOSCMessage } from "../store/actions";
+import { saveLastValue } from '../store/actions/elementsAction';
+import {getElementById} from '../store/selectors/elementsSelectors';
 
 const Element = ({
     obj,
@@ -16,17 +18,26 @@ const Element = ({
     toggleStatic,
     socket
 }) => {
-
-    const currentTab = useSelector(state => state.tabs.currentTab);
-    const [currentValue, setCurrentValue] = useState(0)
-
     let dispatch = useDispatch();
 
-    const handleResetPitch = (obj) => {
-        if (obj.msgType === MsgTypes.PITCH) {
-            setCurrentValue(0);
-            sendOSC(obj, 0);
+    const currentTab = useSelector(state => state.tabs.currentTab);
+    const currentElement = useSelector((state) =>
+      getElementById(state, obj.id)
+    );
+    const [currentValue, setCurrentValue] = useState(0);
+
+    useEffect(() => {
+        if (obj.msgType === MsgTypes.SLIDER) {
+            const savedValue = currentElement[0].lastValue;
+            setCurrentValue(savedValue);
+            sendOSC(obj, savedValue);
         }
+    }, []);
+
+
+    const handleResetPitch = (obj) => {
+        setCurrentValue(0);
+        sendOSC(obj, 0);
     }
 
     const sendBtnMsg = (obj) => {
@@ -49,7 +60,14 @@ const Element = ({
             value
         };
         socket.emit('osc', data);
+        dispatch(saveLastValue(obj, value));
         sendFormattedOscMessage(data);
+    }
+
+    const handleSaveLastValue = () => {
+        setTimeout(() => {
+            dispatch(saveLayout());
+        }, 2000);
     }
 
     const sendFormattedOscMessage = (data) => {
@@ -63,38 +81,47 @@ const Element = ({
     }
 
     const elementsMap = {
-        [ElementTypes.BTN]: (
-            <OscButton
-                obj={obj}
-                onPointerDown={isEditingMode ? null : () => sendBtnMsg(obj)}
-                className="button-wrapper"
-            />
-        ),
-        [ElementTypes.SLIDER]: (
-            <div>
-                <Nouislider
-                    key={obj.id}
-                    id={obj.id}
-                    connect
-                    animate={false}
-                    start={currentValue}
-                    behaviour="drag"
-                    range={{
-                        min: [obj.msgType === MsgTypes.SLIDER ? obj.minValue : obj.minPitchValue],
-                        max: [obj.msgType === MsgTypes.SLIDER ? obj.maxValue : obj.maxPitchValue]
-                    }}
-                    direction='rtl'
-                    step={0.001}
-                    orientation={obj.orientation}
-                    disabled={isEditingMode}
-                    onSlide={(v) => sendSlideValue(obj, v)}
-                    onEnd={() => handleResetPitch(obj)}
-                />
-                <div className='slider-label' style={{ color: obj.labelColor }}>{obj.label}</div>
-            </div>
-
-        ),
-        [ElementTypes.LABEL]: <Label obj={obj} />
+      [ElementTypes.BTN]: (
+        <OscButton
+          obj={obj}
+          onPointerDown={isEditingMode ? null : () => sendBtnMsg(obj)}
+          className="button-wrapper"
+        />
+      ),
+      [ElementTypes.SLIDER]: (
+        <div>
+          <Nouislider
+            key={obj.id}
+            id={obj.id}
+            connect
+            animate={false}
+            start={currentValue}
+            behaviour="drag"
+            range={{
+              min: [
+                obj.msgType === MsgTypes.SLIDER
+                  ? obj.minValue
+                  : obj.minPitchValue,
+              ],
+              max: [
+                obj.msgType === MsgTypes.SLIDER
+                  ? obj.maxValue
+                  : obj.maxPitchValue,
+              ],
+            }}
+            direction="rtl"
+            step={0.001}
+            orientation={obj.orientation}
+            disabled={isEditingMode}
+            onSlide={(v) => sendSlideValue(obj, v)}
+            onEnd={(v) => obj.msgType === MsgTypes.PITCH ? handleResetPitch(obj) : handleSaveLastValue(obj, v)}
+          />
+          <div className="slider-label" style={{ color: obj.labelColor }}>
+            {obj.label}
+          </div>
+        </div>
+      ),
+      [ElementTypes.LABEL]: <Label obj={obj} />,
     };
     const elementClass = classNames({
         oscButton: obj.type === ElementTypes.BTN,

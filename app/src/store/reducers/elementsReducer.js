@@ -9,6 +9,7 @@ import {
   LOCK_ELEMENT,
   RESET_BOARD,
   SAVE_ELEMENT_FORM,
+  SAVE_LAST_VALUE,
   UPDATE_ELEMENT_POS,
   UPDATE_ELEMENT_SIZE
 } from '../../constants/actionConstants';
@@ -40,10 +41,11 @@ export default createReducer(initialState, {
       oscValue: id,
       styleColor: DefaultColors.STYLE_COLOR,
       labelColor: DefaultColors.TEXT_COLOR,
+      lastValue: 0,
     };
     return {
       ...state,
-      elements: [...state.elements, element]
+      elements: [...state.elements, element],
     };
   },
   [CREATE_SLIDER]: (state, action) => {
@@ -60,6 +62,7 @@ export default createReducer(initialState, {
       type: ElementTypes.SLIDER,
       msgType: MsgTypes.SLIDER,
       value: 0,
+      lastValue: 0,
       oscValue: id,
       styleColor: DefaultColors.STYLE_COLOR,
       labelColor: DefaultColors.TEXT_COLOR,
@@ -71,7 +74,7 @@ export default createReducer(initialState, {
     };
     return {
       ...state,
-      elements: [...state.elements, element]
+      elements: [...state.elements, element],
     };
   },
   [CREATE_LABEL]: (state, action) => {
@@ -83,73 +86,79 @@ export default createReducer(initialState, {
       w: 100,
       h: 50,
       static: false,
-      label: 'label',
+      label: "label",
       tab: action.payload,
       type: ElementTypes.LABEL,
       color: DefaultColors.LABEL_TEXT_COLOR,
-      textAlign: 'center'
+      textAlign: "center",
     };
     return {
       ...state,
-      elements: [...state.elements, element]
+      elements: [...state.elements, element],
     };
   },
   [UPDATE_ELEMENT_POS]: (state, action) => ({
     ...state,
-    elements: state.elements.map(
-      el =>
-        el.id === action.payload.id
-          ? {
+    elements: state.elements.map((el) =>
+      el.id === action.payload.id
+        ? {
             ...el,
             x: el.x + action.payload.pos.deltaX,
-            y: el.y + action.payload.pos.deltaY
+            y: el.y + action.payload.pos.deltaY,
           }
-          : el
-    )
+        : el
+    ),
   }),
   [UPDATE_ELEMENT_SIZE]: (state, action) => ({
     ...state,
-    elements: state.elements.map(
-      el =>
-        el.id === action.payload.id
-          ? {
+    elements: state.elements.map((el) =>
+      el.id === action.payload.id
+        ? {
             ...el,
             w: action.payload.ref.style.width,
-            h: action.payload.ref.style.height
+            h: action.payload.ref.style.height,
           }
-          : el
-    )
+        : el
+    ),
   }),
   [LOCK_ELEMENT]: (state, action) => ({
     ...state,
-    elements: state.elements.map(
-      el => (el.id === action.payload ? { ...el, static: !el.static } : el)
-    )
+    elements: state.elements.map((el) =>
+      el.id === action.payload ? { ...el, static: !el.static } : el
+    ),
+  }),
+  [SAVE_LAST_VALUE]: (state, action) => ({
+    ...state,
+    elements: state.elements.map((el) =>
+      el.id === action.payload.obj.id
+        ? { ...el, lastValue: action.payload.value }
+        : el
+    ),
   }),
   [SAVE_ELEMENT_FORM]: (state, action) => ({
     ...state,
-    elements: state.elements.map(
-      o => (o.id === action.payload.id ? action.payload : o)
-    )
+    elements: state.elements.map((o) =>
+      o.id === action.payload.id ? action.payload : o
+    ),
   }),
   [LOAD_ELEMENTS]: (state, action) => ({
     ...state,
-    elements: action.payload
+    elements: action.payload,
   }),
   [HANDLE_EDIT_ELEMENT]: (state, action) => ({
     ...state,
-    editedElementId: action.payload
+    editedElementId: action.payload,
   }),
   [IMPORT_ELEMENTS_FROM_FILE]: (state, action) => ({
     ...state,
-    elements: action.payload
+    elements: action.payload,
   }),
   [DELETE_ELEMENT]: (state, action) => ({
     ...state,
-    elements: state.elements.filter(el => el.id !== action.payload),
+    elements: state.elements.filter((el) => el.id !== action.payload),
   }),
   [DELETE_ELEMENTS_FROM_TAB]: (state, action) => ({
     ...state,
-    elements: state.elements.filter(el => el.tab.id !== action.payload),
-  })
+    elements: state.elements.filter((el) => el.tab.id !== action.payload),
+  }),
 });
