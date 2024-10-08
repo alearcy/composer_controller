@@ -67,7 +67,7 @@ const Element = ({
     const handleSaveLastValue = () => {
         setTimeout(() => {
             dispatch(saveLayout());
-        }, 2000);
+        }, 500);
     }
 
     const sendFormattedOscMessage = (data) => {
