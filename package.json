@@ -30,7 +30,7 @@
     "@electron-forge/maker-squirrel": "^7.4.0",
     "@electron-forge/maker-zip": "^7.4.0",
     "electron": "^30.0.2",
-    "node-sass": "^9.0.0"
+    "sass": "^1.94.2"
   },
   "dependencies": {
     "cors": "^2.8.5",
